@@ -1,0 +1,42 @@
+
+.ReactModalPortal > div > div {
+  padding: 0px !important;
+}
+
+.modal-header {
+  background: coral;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.close-modal {
+  width: 16px;
+  height: 18px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+}
+
+.ReactModal__Content {
+  background: rgb(231, 231, 231) !important;
+  margin: 200px;
+}
+
+@media screen and (max-width: 900px) {
+  .ReactModal__Content {
+    margin: 100px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .ReactModal__Content {
+    margin: 50px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .ReactModal__Content {
+    margin: 0px;
+  }
+}
