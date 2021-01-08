@@ -20,23 +20,172 @@
 
 .ReactModal__Content {
   background: rgb(231, 231, 231) !important;
-  margin: 200px;
+  margin: 7%;
 }
 
-@media screen and (max-width: 900px) {
-  .ReactModal__Content {
-    margin: 100px;
-  }
+.email-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media screen and (max-width: 600px) {
-  .ReactModal__Content {
-    margin: 50px;
-  }
+.password-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@media screen and (max-width: 500px) {
-  .ReactModal__Content {
-    margin: 0px;
+/* Log In Button*/
+
+.button-container-1 {
+  position: relative;
+  width: 100px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 6vh;
+  overflow: hidden;
+  border: 1px solid coral;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  transition: 0.5s;
+  letter-spacing: 1px;
+  border-radius: 8px;
+}
+.button-container-1 button {
+  width: 101%;
+  height: 100%;
+  font-family: "Lato", sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  background: coral;
+  -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
+  mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png");
+  -webkit-mask-size: 2300% 100%;
+  mask-size: 2300% 100%;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  -webkit-animation: ani2 0.7s steps(22) forwards;
+  animation: ani2 0.7s steps(22) forwards;
+}
+.button-container-1 button:hover {
+  -webkit-animation: ani 0.7s steps(22) forwards;
+  animation: ani 0.7s steps(22) forwards;
+}
+
+.mas {
+  position: absolute;
+  color: #000;
+  text-align: center;
+  width: 101%;
+  font-family: "Lato", sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  position: absolute;
+  margin-top: 17px;
+  overflow: hidden;
+}
+
+@-webkit-keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
   }
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+@keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+@-webkit-keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+@keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+a {
+  color: #00ff95;
+}
+
+/*Log In Button end*/
+
+.button-container-3 {
+  position: relative;
+  width: 200px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vh;
+  overflow: hidden;
+  border: 1px solid #000;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  transition: 0.5s;
+  letter-spacing: 1px;
+  border-radius: 8px;
+}
+.button-container-3 button {
+  width: 101%;
+  height: 100%;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  background: #000;
+  -webkit-mask: url("https://raw.githubusercontent.com/pizza3/asset/master/natureSmaller.png");
+  mask: url("https://raw.githubusercontent.com/pizza3/asset/master/natureSmaller.png");
+  -webkit-mask-size: 7100% 100%;
+  mask-size: 7100% 100%;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  -webkit-animation: ani2 0.7s steps(70) forwards;
+  animation: ani2 0.7s steps(70) forwards;
+}
+.button-container-3 button:hover {
+  -webkit-animation: ani 0.7s steps(70) forwards;
+  animation: ani 0.7s steps(70) forwards;
+}
+
+.create-account {
+  top: -7px;
+  position: absolute;
+  color: #000;
+  text-align: center;
+  width: 101%;
+  font-family: "Lato", sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  position: absolute;
+  margin-top: 17px;
+  overflow: hidden;
 }

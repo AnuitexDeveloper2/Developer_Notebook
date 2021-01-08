@@ -7,9 +7,11 @@ import { AppState } from '../../redux/reducers/rootReducer';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { OpenSignInAction } from '../../redux/actions/header/headerActions';
+import { HeaderState } from '../../redux/reducers/headerReducer';
 
 interface Props {
     openLogIn: () => void
+    modalManager: HeaderState
 }
 
 const Header: FC<Props> = (props) => {
@@ -47,7 +49,7 @@ const Header: FC<Props> = (props) => {
                         null
                     )
                 }
-                <ModalManager />
+                <ModalManager popUpState={props.modalManager}/>
             </div>
         </div>
     )
