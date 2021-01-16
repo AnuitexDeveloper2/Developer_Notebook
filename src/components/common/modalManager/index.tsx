@@ -9,7 +9,7 @@ interface ModalProps {
     popUpState: HeaderState
 }
 
-const ModalManager: FC<ModalProps> = (props) => {
+const ModalManager: FC<any> = (props) => {
     if (props.popUpState.openLogin) {
         return (
             <LogIn />
