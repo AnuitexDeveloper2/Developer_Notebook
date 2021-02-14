@@ -24,3 +24,8 @@ code {
 .MuiInput-underline:hover:not(.Mui-disabled):before {
   border-bottom: 1px solid black !important;
 }
+
+.error {
+  color: rgb(233, 87, 87);
+  font-size: 12px;
+}
