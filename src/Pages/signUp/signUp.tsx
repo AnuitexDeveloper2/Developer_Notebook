@@ -10,7 +10,7 @@ import { registerObject } from '../../helper/yupValidationSchemas';
 import { RegisterAction } from '../../redux/actions/auth/authActions';
 import { CloseRegisterAction } from '../../redux/actions/header/headerActions';
 import { RegisterForm } from '../../types/auth';
-import './index.scss';
+import './index.css';
 
 const Register: FC = () => {
   const dispatch = useDispatch();
@@ -25,10 +25,10 @@ const Register: FC = () => {
   };
 
   const handleSubmit = (values: RegisterForm) => {
-    if (values.password !== values.confirmPassword) {
-      setState({ ...state, isPasswordMatchError: true });
-      return
-    }
+    // if (values.password !== values.confirmPassword) {
+    //   setState({ ...state, isPasswordMatchError: true });
+    //   return
+    // }
     dispatch(RegisterAction(values))
   };
 
