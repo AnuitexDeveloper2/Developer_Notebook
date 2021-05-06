@@ -1,6 +1,7 @@
 import { ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { LogInRequest } from "../../../types/auth";
+import { http } from "../../../helper/request";
+import { LogInRequest, RegisterRequest } from "../../../types/auth";
 import { AuthActions } from "./types";
 
 export const SignInAction: ActionCreator<
@@ -10,5 +11,26 @@ export const SignInAction: ActionCreator<
         AuthActions>> = (data) => {
             return async (dispatch: Dispatch) => {
 
+            }
+        }
+
+export const RegisterAction: ActionCreator<
+    ThunkAction<Promise<void>,
+        RegisterRequest,
+        null,
+        AuthActions>> = (data) => {
+            return async (dispatch: Dispatch) => {
+                const config = {
+                    method: 'POST',
+                    path: 'auth/register',
+                    body: data
+                }
+                const result = await http(config)
+                const RegisterAction: AuthActions = {
+                    type: 'Register',
+                    result: result.parsedBody
+                }
+                dispatch(RegisterAction)
+                debugger
             }
         }

@@ -6,7 +6,7 @@ import { AnyAction } from 'redux';
 import { CloseLogInAction, OpenRegisterAction } from '../../redux/actions/header/headerActions';
 import { ThunkDispatch } from 'redux-thunk';
 import './index.css';
-import { TextField } from '@material-ui/core';
+import { Box, TextField } from '@material-ui/core';
 
 interface Props {
   closeModal: () => void;
@@ -50,6 +50,7 @@ const LogIn: FC<Props> = (props) => {
           alt="close"
         />
       </div>
+      <Box display="flex" alignItems="center" justifyContent="center" marginTop="5em">
       <div className="login-container">
         <div className="email-field">
           <TextField label="Email" className="base-input" onChange={handleChange} name="email" />
@@ -70,6 +71,7 @@ const LogIn: FC<Props> = (props) => {
             </button>
           </div>
       </div>
+      </Box>
     </Modal>
   );
 };
