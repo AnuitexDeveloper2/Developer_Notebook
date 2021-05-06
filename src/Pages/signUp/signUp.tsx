@@ -1,6 +1,6 @@
-import { Box, Button } from '@material-ui/core';
-import { Form, Formik } from 'formik';
-import React, { FC } from 'react';
+import { Box, Button, TextField } from '@material-ui/core';
+import { Form, Formik, Field } from 'formik';
+import React, { FC, useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 import close from '../../assets/zondicons/close.svg';
@@ -9,22 +9,35 @@ import { useModalState } from '../../components/hooks/modal';
 import { registerObject } from '../../helper/yupValidationSchemas';
 import { RegisterAction } from '../../redux/actions/auth/authActions';
 import { CloseRegisterAction } from '../../redux/actions/header/headerActions';
-import { RegisterRequest } from '../../types/auth';
+import { RegisterForm } from '../../types/auth';
+import './index.scss';
 
 const Register: FC = () => {
   const dispatch = useDispatch();
-  const { isOpen, onToggle } = useModalState();
-
-  const handleClick = () => {
-    onToggle();
-  };
+  const [state, setState] = useState({
+    confirmPassword: '',
+    isPasswordMatchError: false,
+    isSuccess: false,
+  });
 
   const closeModal = () => {
     dispatch(CloseRegisterAction());
   };
 
-  const handleSubmit = (values: RegisterRequest) => {
+  const handleSubmit = (values: RegisterForm) => {
+    if (values.password !== values.confirmPassword) {
+      setState({ ...state, isPasswordMatchError: true });
+      return
+    }
     dispatch(RegisterAction(values))
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      isPasswordMatchError: false,
+      confirmPassword: event.currentTarget.value,
+    });
   };
 
   return (
@@ -55,9 +68,25 @@ const Register: FC = () => {
               <MyTextInput label="Last Name" name="lastName" />
               <MyTextInput label="Email" name="email" />
               <MyTextInput label="Password" name="password" />
-              <MyTextInput label="Confirm Password" name="confirmPassword" />
+              <TextField
+                onChange={handleChange}
+                className="base-input"
+                label="Confirm Password"
+                name="confirmPassword"
+              />
+              {state.isPasswordMatchError && <div className="error">Password did not match</div>}
               <Box display="flex" justifyContent="center" marginTop="1em">
-                <button type="submit">Submit</button>
+                <div className="button-container-1">
+                  <span className="mas">Register</span>
+                  <button
+                    id="work"
+                    type="submit"
+                    name="Hover"
+                    onClick={() => handleSubmit}
+                  >
+                    Register
+                  </button>
+                </div>
               </Box>
             </Form>
           </Box>

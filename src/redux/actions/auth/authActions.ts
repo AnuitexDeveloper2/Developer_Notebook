@@ -1,7 +1,7 @@
 import { ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { http } from "../../../helper/request";
-import { LogInRequest, RegisterRequest } from "../../../types/auth";
+import { LogInRequest } from "../../../types/auth";
 import { AuthActions } from "./types";
 
 export const SignInAction: ActionCreator<
@@ -16,7 +16,7 @@ export const SignInAction: ActionCreator<
 
 export const RegisterAction: ActionCreator<
     ThunkAction<Promise<void>,
-        RegisterRequest,
+        any,
         null,
         AuthActions>> = (data) => {
             return async (dispatch: Dispatch) => {
