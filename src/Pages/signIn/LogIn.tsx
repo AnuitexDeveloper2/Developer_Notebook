@@ -39,7 +39,9 @@ const LogIn: FC<Props> = (props) => {
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    
+  };
   return (
     <Modal isOpen={true} ariaHideApp={false} >
       <div className="modal-header">

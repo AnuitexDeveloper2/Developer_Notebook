@@ -10,7 +10,17 @@ export const SignInAction: ActionCreator<
         null,
         AuthActions>> = (data) => {
             return async (dispatch: Dispatch) => {
-
+                const config = {
+                    method: 'POST',
+                    path: 'auth/register',
+                    body: data
+                }
+                const result = await http(config)
+                const RegisterAction: AuthActions = {
+                    type: 'LOGIN',
+                    result: result.parsedBody
+                }
+                dispatch(RegisterAction)
             }
         }
 
@@ -27,10 +37,9 @@ export const RegisterAction: ActionCreator<
                 }
                 const result = await http(config)
                 const RegisterAction: AuthActions = {
-                    type: 'Register',
+                    type: 'REGISTER',
                     result: result.parsedBody
                 }
                 dispatch(RegisterAction)
-                debugger
             }
         }

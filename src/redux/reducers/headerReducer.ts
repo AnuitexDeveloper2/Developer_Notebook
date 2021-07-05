@@ -10,7 +10,7 @@ export interface HeaderState {
   
 const initialState: HeaderState = {
     openLogin: false,
-    openRegister: true
+    openRegister: false
 }
 
 const neverReached = (never: never) => {};

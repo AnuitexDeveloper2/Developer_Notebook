@@ -1,8 +1,8 @@
 import { Action } from "redux";
 
-export interface LogInAction extends Action<"LOGIN"> { }
+export interface LogInAction extends Action<"LOGIN"> { result: any}
 
-export interface RegisterAction extends Action<"Register"> {
+export interface RegisterAction extends Action<"REGISTER"> {
     result: any
  }
 

@@ -12,9 +12,7 @@ export const http = <REQB, RESB>(
     config: HttpRequest<REQB>,
 ): Promise<HttpResponse<RESB>> => {
     return new Promise((resolve, reject) => {
-        const test = process.env.REACT_API_URI
-        debugger
-        const request = new Request(`${`http://localhost:80/`}${config.path}`, {
+        const request = new Request(`${process.env.APP_BASE_URL}/${config.path}`, {
             method: config.method || 'get',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,3 +1,48 @@
 .home-container {
-    margin-top: 20px;
+  margin-top: 100px;
+  align-items: center;
+}
+
+.topic-container {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 70% 70% 70% 70%;
+  justify-content: center;
+}
+
+.topic-item-container {
+  padding: 0 50px;
+}
+
+.topic-item {
+  display: flex;
+  align-items: center;
+  background-color: aliceblue;
+  border: 1px solid black;
+  justify-content: center;
+  /* padding: 20px; */
+  border-radius: 10px;
+  cursor: pointer;
+  background: url('../../assets/images/topics/JS.png') no-repeat center center /
+    100%;
+}
+
+/* .JS {
+    
+    width: 100px;
+    height: 100px;
+} */
+
+.productImage {
+  border-radius: inherit;
+  width: 100%;
+  max-height: 300px;
+  display: block;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 576px) {
+  .topic-item-container {
+    padding: 5px;
+  }
 }
