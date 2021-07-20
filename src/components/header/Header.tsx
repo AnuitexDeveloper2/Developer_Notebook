@@ -57,7 +57,8 @@ const Header: FC<Props> = (props) => {
 
 const mapStateToProps = (state: AppState) => {
     return {
-        modalManeger: state.headerManager
+        modalManeger: state.headerManager,
+        user: state.user
     }
 }
 

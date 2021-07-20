@@ -25,9 +25,6 @@ const Register: FC = () => {
   };
 
   const handleSubmit = (values: RegisterForm) => {
-    debugger
-    const test = process.env.REACT_APP_URI
-    const trest = process.env.REACT_APP_PORT
     if (values.password !== state.confirmPassword) {
       setState({ ...state, isPasswordMatchError: true });
       return

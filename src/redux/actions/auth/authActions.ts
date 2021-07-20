@@ -15,13 +15,18 @@ export const SignInAction: ActionCreator<
                     path: 'auth/register',
                     body: data
                 }
-                const result = await http(config)
-                const RegisterAction: AuthActions = {
-                    type: 'LOGIN',
-                    result: result.parsedBody
+                try {
+                    debugger
+                    const result = await http(config)
+                    const RegisterAction: AuthActions = {
+                        type: 'LOGIN',
+                        result: result.parsedBody
+                    }
+                    dispatch(RegisterAction)
+                } catch (error) {
+                 debugger   
                 }
-                dispatch(RegisterAction)
-            }
+                }
         }
 
 export const RegisterAction: ActionCreator<
@@ -35,11 +40,12 @@ export const RegisterAction: ActionCreator<
                     path: 'auth/register',
                     body: data
                 }
-                const result = await http(config)
-                const RegisterAction: AuthActions = {
-                    type: 'REGISTER',
-                    result: result.parsedBody
-                }
-                dispatch(RegisterAction)
+                    const result = await http(config)
+              
+                    const RegisterAction: AuthActions = {
+                        type: 'REGISTER',
+                        result: result.parsedBody
+                    }
+                    dispatch(RegisterAction)
             }
         }

@@ -12,7 +12,7 @@ export const http = <REQB, RESB>(
     config: HttpRequest<REQB>,
 ): Promise<HttpResponse<RESB>> => {
     return new Promise((resolve, reject) => {
-        const request = new Request(`${process.env.APP_BASE_URL}/${config.path}`, {
+        const request = new Request(`${process.env.REACT_APP_URI}/${config.path}`, {
             method: config.method || 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,6 +22,7 @@ export const http = <REQB, RESB>(
         if (config.accessToken) {
             request.headers.set('authorization', `bearer ${config.accessToken}`);
         }
+        debugger
         let response: HttpResponse<RESB>;
         fetch(request)
             .then((res) => {
@@ -29,6 +30,7 @@ export const http = <REQB, RESB>(
                 return res.json();
             })
             .then((body) => {
+                debugger
                 if (response.ok) {
                     response.parsedBody = body;
                     resolve(response);
@@ -37,6 +39,7 @@ export const http = <REQB, RESB>(
                 }
             })
             .catch((err) => {
+                debugger
                 console.error(err);
                 reject(err);
             });

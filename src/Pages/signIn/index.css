@@ -39,6 +39,8 @@
 
 .button-container-1 {
   position: relative;
+  display: flex;
+  align-items: center;
   width: 100px;
   height: 50px;
   margin-left: auto;
@@ -86,7 +88,6 @@
   letter-spacing: 1px;
   font-weight: bold;
   position: absolute;
-  margin-top: 17px;
   overflow: hidden;
 }
 
