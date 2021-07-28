@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
 import React, { ChangeEvent, FC, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
 import close from '../../assets/zondicons/close.svg';
 import { AnyAction } from 'redux';
@@ -7,22 +7,26 @@ import { CloseLogInAction, OpenRegisterAction } from '../../redux/actions/header
 import { ThunkDispatch } from 'redux-thunk';
 import './index.css';
 import { Box, TextField } from '@material-ui/core';
+import { SignInAction } from '../../redux/actions/auth/authActions';
 
 interface Props {
   closeModal: () => void;
   openRegister: () => void;
 }
-
 interface State {
   email: string;
   password: string;
 }
 
 const LogIn: FC<Props> = (props) => {
+  const dispatch = useDispatch();
   const [state, setState] = useState<State>({
     email: '',
     password: '',
   });
+
+  const [error, setError] = useState<string>('')
+
   const closeSignIn = () => {
     props.closeModal();
   };
@@ -38,9 +42,13 @@ const LogIn: FC<Props> = (props) => {
       ...state,
       [event.currentTarget.name]: event.currentTarget.value,
     });
+    setError('')
   };
-  const handleSubmit = () => {
-    
+  const handleSubmit = async() => {
+    const error: any = await dispatch(SignInAction(state))
+    if (error) {
+      setError(error)
+    }
   };
   return (
     <Modal isOpen={true} ariaHideApp={false} >
@@ -72,6 +80,7 @@ const LogIn: FC<Props> = (props) => {
               Create Account
             </button>
           </div>
+          <div>{error}</div>
       </div>
       </Box>
     </Modal>

@@ -5,28 +5,29 @@ import { LogInRequest } from "../../../types/auth";
 import { AuthActions } from "./types";
 
 export const SignInAction: ActionCreator<
-    ThunkAction<Promise<void>,
+    ThunkAction<Promise<string>,
         LogInRequest,
         null,
         AuthActions>> = (data) => {
             return async (dispatch: Dispatch) => {
                 const config = {
                     method: 'POST',
-                    path: 'auth/register',
+                    path: 'auth/login',
                     body: data
                 }
                 try {
-                    debugger
-                    const result = await http(config)
+                    const result = await http(config) as any
+                    if (result.parsedBody.error) {
+                        return result.parsedBody.error
+                    }
                     const RegisterAction: AuthActions = {
                         type: 'LOGIN',
                         result: result.parsedBody
                     }
                     dispatch(RegisterAction)
                 } catch (error) {
-                 debugger   
                 }
-                }
+            }
         }
 
 export const RegisterAction: ActionCreator<
@@ -40,12 +41,12 @@ export const RegisterAction: ActionCreator<
                     path: 'auth/register',
                     body: data
                 }
-                    const result = await http(config)
-              
-                    const RegisterAction: AuthActions = {
-                        type: 'REGISTER',
-                        result: result.parsedBody
-                    }
-                    dispatch(RegisterAction)
+                const result = await http(config)
+
+                const RegisterAction: AuthActions = {
+                    type: 'REGISTER',
+                    result: result.parsedBody
+                }
+                dispatch(RegisterAction)
             }
         }

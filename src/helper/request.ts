@@ -22,7 +22,6 @@ export const http = <REQB, RESB>(
         if (config.accessToken) {
             request.headers.set('authorization', `bearer ${config.accessToken}`);
         }
-        debugger
         let response: HttpResponse<RESB>;
         fetch(request)
             .then((res) => {
@@ -30,7 +29,6 @@ export const http = <REQB, RESB>(
                 return res.json();
             })
             .then((body) => {
-                debugger
                 if (response.ok) {
                     response.parsedBody = body;
                     resolve(response);
@@ -39,8 +37,6 @@ export const http = <REQB, RESB>(
                 }
             })
             .catch((err) => {
-                debugger
-                console.error(err);
                 reject(err);
             });
     });
