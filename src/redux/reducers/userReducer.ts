@@ -1,29 +1,43 @@
 import { Reducer } from "redux";
 import { AuthActions } from "../actions/auth/types";
 
-export interface UserState {
+export type UserState = {
     readonly firstName: string;
     readonly lastName: string;
-    readonly token: string;
     readonly role: string;
-   }
-   
-  
-const initialState: UserState = {
-    firstName: '',
-    lastName: '',
-    role: '',
-    token: ''
 }
 
-const neverReached = (never: never) => {};
+type TokensState = {
+    readonly accessToken: string;
+    readonly refreshToken: string;
+}
+export interface AuthState {
+    user: UserState;
+    tokens: TokensState
+}
 
-export const userReducer: Reducer<UserState, AuthActions> = (state=initialState, action) => {
+
+const initialState: AuthState = {
+    user: {
+        firstName: '',
+        lastName: '',
+        role: '',
+    },
+    tokens: {
+        accessToken: '',
+        refreshToken: ''
+    }
+}
+
+const neverReached = (never: never) => { };
+
+export const userReducer: Reducer<AuthState, AuthActions> = (state = initialState, action) => {
+    debugger
     switch (action.type) {
         case "REGISTER":
-            return {...state, firstName: action.result.firstName, lastName: action.result.lastName, email: action.result.email, token: action.result.token }
+            return { ...state, user: action.result.user }
         case 'LOGIN':
-            return {...state, firstName: action.result.firstName, lastName: action.result.lastName, email: action.result.email }
+            return { ...state, user: action.result.User }
         default:
             neverReached(action)
     }

@@ -1,17 +1,21 @@
 import React, { FC, useState } from 'react';
-import "./index.css";
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+
 import user from "../../assets/zondicons/user.svg";
 import ModalManager from '../common/modalManager';
 import { connect } from "react-redux";
 import { AppState } from '../../redux/reducers/rootReducer';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import { OpenSignInAction } from '../../redux/actions/header/headerActions';
 import { HeaderState } from '../../redux/reducers/headerReducer';
+import { HeaderMenu } from "./menu";
 
+import "./index.css";
+import { UserState } from '../../redux/reducers/userReducer';
 interface Props {
     openLogIn: () => void
     modalManager: HeaderState
+    user: UserState
 }
 
 const Header: FC<Props> = (props) => {
@@ -41,9 +45,7 @@ const Header: FC<Props> = (props) => {
 
                 <img src={user} onClick={showDropdownMenu} className="user-icon" alt="" />
                 {state.showMenu ? (
-                    <ul>
-                        <li><a className="active" id={"1"} onClick={handleSelect} href="#Create Page">Sign In</a></li>
-                    </ul>
+                    <HeaderMenu handleSelect={handleSelect} role={props.user.role}/>
                 ) :
                     (
                         null
@@ -58,7 +60,7 @@ const Header: FC<Props> = (props) => {
 const mapStateToProps = (state: AppState) => {
     return {
         modalManeger: state.headerManager,
-        user: state.user
+        user: state.auth.user
     }
 }
 

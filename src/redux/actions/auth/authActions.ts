@@ -26,6 +26,7 @@ export const SignInAction: ActionCreator<
                     }
                     dispatch(RegisterAction)
                 } catch (error) {
+                    return error
                 }
             }
         }

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import { headerReducer, HeaderState } from './headerReducer';
-import { userReducer, UserState } from './userReducer';
+import { AuthState, userReducer } from './userReducer';
 
 export interface AppState {
   readonly headerManager: HeaderState;
-  readonly user: UserState
+  readonly auth: AuthState
 }
 
 export const rootReducer = combineReducers<AppState>({
   headerManager: headerReducer,
-  user: userReducer
+  auth: userReducer
 });

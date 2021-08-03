@@ -48,7 +48,9 @@ const LogIn: FC<Props> = (props) => {
     const error: any = await dispatch(SignInAction(state))
     if (error) {
       setError(error)
+      return
     }
+    props.closeModal()
   };
   return (
     <Modal isOpen={true} ariaHideApp={false} >

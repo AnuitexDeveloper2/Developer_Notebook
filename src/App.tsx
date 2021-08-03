@@ -1,12 +1,13 @@
 import React from "react";
-import './App.css';
 import { BrowserRouter, Route } from "react-router-dom";
+
 import Home from "./Pages/home/Home";
-import Header from "./components/header/Header";
-import { createStore } from "redux";
+import Header from "./components/header/index";
 import { configureStore } from "./redux/store";
 import { Provider } from "react-redux";
 import { HeaderState } from "./redux/reducers/headerReducer";
+
+import './App.css';
 
 const store = configureStore()
 const modalManager: HeaderState = {
