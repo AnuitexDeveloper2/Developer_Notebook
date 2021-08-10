@@ -4,20 +4,22 @@ import { FC } from 'react';
 interface Props {
     handleSelect: (event: any) => void
     role: string
+    logOut: () => void
 }
 
-export const HeaderMenu: FC<Props> = ({ handleSelect, role }) => {
+export const HeaderMenu: FC<Props> = ({ handleSelect, role, logOut }) => {
+
     switch (role) {
         case "User":
             return (
                 <ul>
-                    <li><a className="active" id={"1"} onClick={handleSelect} href="#Create Page">Log Out</a></li>
+                    <li><a className="active" id={"1"} onClick={logOut} href="#Create Page">Log Out</a></li>
                 </ul>
             )
-        case "admin":
+        case "Admin":
             return (
                 <ul>
-                    <li><a className="active" id={"1"} onClick={handleSelect} href="#Create Page">Hello Admin</a></li>
+                    <li><a className="active" id={"1"} onClick={logOut} href="#Create Page">Hello Admin</a></li>
                 </ul>
             )
         default:

@@ -38,3 +38,5 @@ export const CloseRegisterAction: ActionCreator<ThunkAction<void,null,null,OpenR
         dispatch(close)
     }
 }
+
+

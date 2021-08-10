@@ -7,12 +7,14 @@ import ModalManager from '../common/modalManager';
 import { connect } from "react-redux";
 import { AppState } from '../../redux/reducers/rootReducer';
 import { OpenSignInAction } from '../../redux/actions/header/headerActions';
+import { LogOutAction } from '../../redux/actions/auth/authActions';
 import { HeaderState } from '../../redux/reducers/headerReducer';
 import { HeaderMenu } from "./menu";
 
 import "./index.css";
 import { UserState } from '../../redux/reducers/userReducer';
 interface Props {
+    logOut: () => void
     openLogIn: () => void
     modalManager: HeaderState
     user: UserState
@@ -45,13 +47,13 @@ const Header: FC<Props> = (props) => {
 
                 <img src={user} onClick={showDropdownMenu} className="user-icon" alt="" />
                 {state.showMenu ? (
-                    <HeaderMenu handleSelect={handleSelect} role={props.user.role}/>
+                    <HeaderMenu handleSelect={handleSelect} role={props.user.role} logOut={props.logOut}/>
                 ) :
                     (
                         null
                     )
                 }
-                <ModalManager popUpState={props.modalManager}/>
+                <ModalManager popUpState={props.modalManager} />
             </div>
         </div>
     )
@@ -66,6 +68,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
     return {
+        logOut: () => dispatch(LogOutAction()),
         openLogIn: () => dispatch(OpenSignInAction())
     }
 }

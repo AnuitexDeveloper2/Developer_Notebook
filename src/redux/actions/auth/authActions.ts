@@ -2,7 +2,7 @@ import { ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { http } from "../../../helper/request";
 import { LogInRequest } from "../../../types/auth";
-import { AuthActions } from "./types";
+import { AuthActions, LogOut } from "./types";
 
 export const SignInAction: ActionCreator<
     ThunkAction<Promise<string>,
@@ -51,3 +51,14 @@ export const RegisterAction: ActionCreator<
                 dispatch(RegisterAction)
             }
         }
+
+
+export const LogOutAction: ActionCreator<ThunkAction<void, null, null, LogOut>> = () => {
+    localStorage.clear()
+    return (dispatch: Dispatch) => {
+        const logout: LogOut = {
+            type: "LogOut"
+        };
+        dispatch(logout)
+    }
+}

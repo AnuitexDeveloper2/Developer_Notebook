@@ -6,4 +6,6 @@ export interface RegisterAction extends Action<"REGISTER"> {
     result: any
  }
 
-export type AuthActions = LogInAction | RegisterAction
+ export interface LogOut extends Action<"LogOut"> { }
+
+export type AuthActions = LogInAction | RegisterAction | LogOut

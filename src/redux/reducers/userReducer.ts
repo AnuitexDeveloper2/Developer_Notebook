@@ -32,12 +32,13 @@ const initialState: AuthState = {
 const neverReached = (never: never) => { };
 
 export const userReducer: Reducer<AuthState, AuthActions> = (state = initialState, action) => {
-    debugger
     switch (action.type) {
         case "REGISTER":
             return { ...state, user: action.result.user }
         case 'LOGIN':
             return { ...state, user: action.result.User }
+        case "LogOut":
+            return state = initialState
         default:
             neverReached(action)
     }
