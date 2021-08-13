@@ -9,6 +9,10 @@ interface Props {
 
 export const HeaderMenu: FC<Props> = ({ handleSelect, role, logOut }) => {
 
+    const goToPage = (path: string) => {
+        window.location.href = path
+    }
+
     switch (role) {
         case "User":
             return (
@@ -19,7 +23,8 @@ export const HeaderMenu: FC<Props> = ({ handleSelect, role, logOut }) => {
         case "Admin":
             return (
                 <ul>
-                    <li><a className="active" id={"1"} onClick={logOut} href="#Create Page">Hello Admin</a></li>
+                    <li><a className="active" id={"1"} onClick={()=>goToPage("/content")} href="#Create Page">Content</a></li>
+                    <li><a className="active" id={"1"} onClick={logOut} href="#Create Page">Log Out</a></li>
                 </ul>
             )
         default:

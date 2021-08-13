@@ -20,11 +20,11 @@ export const SignInAction: ActionCreator<
                     if (result.parsedBody.error) {
                         return result.parsedBody.error
                     }
-                    const RegisterAction: AuthActions = {
+                    const LoginAction: AuthActions = {
                         type: 'LOGIN',
                         result: result.parsedBody
                     }
-                    dispatch(RegisterAction)
+                    dispatch(LoginAction)
                 } catch (error) {
                     return error
                 }
