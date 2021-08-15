@@ -11,8 +11,8 @@ export const GetTopics: ActionCreator<
         GetTopicsAction>> = (data) => {
             return async (dispatch: Dispatch) => {
                 const config = {
-                    method: 'POST',
-                    path: 'auth/register',
+                    method: 'GET',
+                    path: 'topics',
                     body: data
                 }
 

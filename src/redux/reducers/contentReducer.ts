@@ -1,5 +1,6 @@
 import { Reducer } from "redux";
 import { Topic, Record } from "../../types/content";
+import { ContentActions } from "../actions/content/types";
 
 export interface ContentState {
     topics: Array<Topic>
@@ -13,16 +14,12 @@ const initialState: ContentState = {
 
 const neverReached = (never: never) => { };
 
-// export const userReducer: Reducer<ContentState, Content> = (state = initialState, action) => {
-//     switch (action.type) {
-//         case "REGISTER":
-//             return { ...state, user: action.result.user }
-//         case 'LOGIN':
-//             return { ...state, user: action.result.User }
-//         case "LogOut":
-//             return state = initialState
-//         default:
-//             neverReached(action)
-//     }
-//     return state
-// }
+export const contentReducer: Reducer<ContentState, ContentActions> = (state = initialState, action) => {
+    switch (action.type) {
+        case "GET_TOPICS":
+           return {...state, topics: action.result}
+        // default:
+        //     neverReached(action)
+    }
+    return state
+}
