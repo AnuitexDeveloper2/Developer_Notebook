@@ -1,3 +1,43 @@
 .content-card {
     margin-top: 70px;
+    padding: 20px
+}
+
+.topic-container {
+    display: flex;
+}
+
+.topics-section {
+    width: 90%;
+}
+
+.add-topic {
+    width: 10%;
+    color: #ffff;
+    margin: 10px;
+    border: none;
+    background-color: blue;
+    padding: 5px;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+}
+
+.add-topic:hover {
+    transition: 0.5s;
+    transform: scale(1.1);
+}
+
+.add-topic-icon {
+    display: none;
+}
+
+@media screen and (max-width: 765px) {
+    .add-topic-icon {
+        cursor: pointer;
+        display: block;
+    }
+    .add-topic {
+        display: none;
+    }
 }
