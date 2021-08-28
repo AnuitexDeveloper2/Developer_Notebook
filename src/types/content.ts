@@ -1,6 +1,6 @@
 export interface Topic {
     title: string;
-    src: string;
+    img: Array<Buffer>;
     _id: string;
 }
 

@@ -19,6 +19,7 @@ import './index.css';
 import { GetTopics } from '../../redux/actions/content';
 import { AppState } from '../../redux/reducers/rootReducer';
 import TopicItem from './topicItem';
+import AddTopic from './addTopic';
 
 interface State {
   content: Array<any>;
@@ -29,16 +30,21 @@ const Content = () => {
   const dispatch = useDispatch();
   const contentSelector = useSelector((state: AppState) => state.content);
   const [state, setState] = useState<State>({
-    content: [{ title: 'react', description: 'test' }],
+    content: [],
     addTopicModal: false,
   });
   useEffect(() => {
     dispatch(GetTopics());
-  }, []);
+  }, [GetTopics]);
 
   const openAddTopic = () => {
-      setState({...state, addTopicModal: true})
+    setState({ ...state, addTopicModal: true })
   };
+
+  const closeCreateTopicModal = () => {
+    dispatch(GetTopics());
+    setState({ ...state, addTopicModal: false })
+  }
 
   return (
     <Card className="content-card">
@@ -56,29 +62,31 @@ const Content = () => {
       <TableContainer className="table-container">
         <Table>
           <TableHead>
-            <TableCell>Title</TableCell>
-            <TableCell>Description</TableCell>
+            <TableRow>
+              <TableCell>Title</TableCell>
+              <TableCell>Description</TableCell>
+            </TableRow>
           </TableHead>
-          {state.content.map((item) => {
+          <TableBody>
+          {state.content.map((item, i) => {
             return (
-              <TableBody>
-                <TableRow>
+                <TableRow key={i}>
                   <TableCell>{item.title}</TableCell>
                   <TableCell>{item.description}</TableCell>
                 </TableRow>
-              </TableBody>
             );
           })}
+          </TableBody>
         </Table>
       </TableContainer>
       <Dialog
         fullWidth
         open={state.addTopicModal}
-        // onClose={closeAddTicketsModal}
+        onClose={closeCreateTopicModal}
         id="add-tickets-dialog"
       >
         <DialogContent>
-          {/* <AddTickets closeModal={closeAddTicketsModal} id={id} /> */}
+          <AddTopic addAndClose={closeCreateTopicModal} />
         </DialogContent>
       </Dialog>
     </Card>
