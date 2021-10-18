@@ -18,6 +18,8 @@ export const contentReducer: Reducer<ContentState, ContentActions> = (state = in
     switch (action.type) {
         case "GET_TOPICS":
            return {...state, topics: action.result}
+        case "GET_ITEMS":
+            return {...state, records: action.result}
         // default:
         //     neverReached(action)
     }

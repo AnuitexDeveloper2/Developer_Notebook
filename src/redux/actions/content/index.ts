@@ -2,13 +2,13 @@ import { ActionCreator, Dispatch } from "redux"
 import { ThunkAction } from "redux-thunk"
 import { http } from "../../../helper/request"
 import { Record, Topic } from "../../../types/content"
-import { CreateTopicAction, GetTopicsAction } from "./types"
+import * as types from "./types"
 
 export const GetTopics: ActionCreator<
     ThunkAction<Promise<void>,
         any,
         null,
-        GetTopicsAction>> = () => {
+        types.GetTopicsAction>> = () => {
             return async (dispatch: Dispatch) => {
                 const config = {
                     method: 'GET',
@@ -25,11 +25,27 @@ export const GetTopics: ActionCreator<
             }
         }
 
+export const GetTopic: ActionCreator<
+    ThunkAction<Promise<Record>,
+        any,
+        null,
+        types.GetTopicAction>> = (id: string) => {
+            return async (dispatch: Dispatch) => {
+                const config = {
+                    method: 'GET',
+                    path: `topics/${id}`,
+                }
+                debugger
+                const result = await http(config)
+                return result.parsedBody as any
+            }
+        }
+
 export const CreateTopic: ActionCreator<
     ThunkAction<Promise<Record>,
         any,
         null,
-        CreateTopicAction>> = (data) => {
+        types.CreateTopicAction>> = (data) => {
             return async (dispatch: Dispatch) => {
                 const config = {
                     method: 'POST',
@@ -44,5 +60,46 @@ export const CreateTopic: ActionCreator<
                     result: result.parsedBody
                 }
                 return result.parsedBody as any
+            }
+        }
+
+
+
+export const EditTopic: ActionCreator<
+    ThunkAction<Promise<Record>,
+        any,
+        null,
+        types.EditTopicAction>> = (data) => {
+            return async (dispatch: Dispatch) => {
+                const config = {
+                    method: 'PUT',
+                    path: 'topics',
+                    body: data
+                }
+
+                const result = await http(config)
+
+                return result.parsedBody as any
+            }
+        }
+
+
+export const GetItemsAction: ActionCreator<
+    ThunkAction<Promise<void>,
+        any,
+        null,
+        types.GetItemsAction>> = (topicId: any) => {
+            return async (dispatch: Dispatch) => {
+                const config = {
+                    method: 'GET',
+                    path: 'contents/admin',
+                }
+
+                const result = await http(config)
+                const getTopicsAction = {
+                    type: "GET_ITEMS",
+                    result: result.parsedBody
+                }
+                dispatch(getTopicsAction)
             }
         }

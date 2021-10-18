@@ -1,109 +1,146 @@
 .content-card {
-    margin-top: 70px;
-    padding: 20px
+  margin-top: 70px;
+  padding: 20px;
 }
 
 .topic-container {
-    display: flex;
+  display: flex;
 }
 
 .topics-section {
-    width: 90%;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  overflow: auto;
+  gap: 10px;
 }
 
 .add-topic {
-    width: 10%;
-    color: #ffff;
-    margin: 20px;
-    border: none;
-    background-color: blue;
-    padding: 5px;
-    border-radius: 5px;
-    display: block;
-    cursor: pointer;
+  width: 10%;
+  color: #ffff;
+  margin: 20px;
+  border: none;
+  background-color: blue;
+  padding: 5px;
+  border-radius: 5px;
+  display: block;
+  cursor: pointer;
 }
 
 .add-topic:hover {
-    transition: 0.5s;
-    transform: scale(1.1);
+  transition: 0.5s;
+  transform: scale(1.1);
 }
 
 .add-topic-icon {
-    display: none;
+  display: none;
 }
 
 .add-topic-title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .add-topic-name {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
 }
 
 .add-topic-name div {
-    padding: 10px;
+  padding: 10px;
 }
 
 .add-topic-image {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }
 
 .add-topic-image .with-image {
 }
 
 .add-topic-image img {
-    width: 90px;
-    height: 75px;
+  width: 90px;
+  height: 75px;
 }
 
 .add-topic-submit {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .add-topic-submit button {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .admin-topic-img {
-    width: 100px;
-    height: 50px;
-    border-radius: 10px;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.admin-topic-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.remove-image-icon {
+  color: rgb(216, 21, 21);
+  cursor: pointer;
+  min-width: 16px;
+  padding: 8px;
+  background-color: transparent;
+  overflow: visible;
+  border: none;
+  font-size: 1.5rem;
+  text-align: center;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 50%;
+}
+
+.edit-image-icon {
+  cursor: pointer;
+  min-width: 16px;
+  padding: 8px;
+  background-color: transparent;
+  overflow: visible;
+  border: none;
+  font-size: 1.5rem;
+  text-align: center;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 50%;
 }
 
 .admin-topic-section {
-    margin: 5px;
-    cursor: pointer;
+  margin: 5px;
+  cursor: pointer;
 }
 
-.admin-topic-section:hover .admin-topic-title{
-    font-size: larger;
-    color: #2196F3;
-    cursor: pointer;
-    transition: font-size 0.5s;
-
+.admin-topic-section:hover .admin-topic-title {
+  /* font-size: larger; */
+  color: #2196f3;
+  cursor: pointer;
+  /* transition: font-size 0.5s; */
 }
 
 @media screen and (max-width: 765px) {
-    .add-topic-icon {
-        cursor: pointer;
-        display: block;
-    }
-    .add-topic {
-        display: none;
-    }
+  .add-topic-icon {
+    cursor: pointer;
+    display: block;
+  }
+  .add-topic {
+    display: none;
+  }
+}
+
+.add-topic-description {
+  max-width: 150px;
 }

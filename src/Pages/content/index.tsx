@@ -16,14 +16,16 @@ import {
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './index.css';
-import { GetTopics } from '../../redux/actions/content';
+import { GetItemsAction, GetTopics, GetTopic } from '../../redux/actions/content';
 import { AppState } from '../../redux/reducers/rootReducer';
 import TopicItem from './topicItem';
 import AddTopic from './addTopic';
+import { Topic } from '../../types/content';
 
 interface State {
   content: Array<any>;
   addTopicModal: boolean;
+  selectedTopic: Topic | null
 }
 
 const Content = () => {
@@ -32,10 +34,16 @@ const Content = () => {
   const [state, setState] = useState<State>({
     content: [],
     addTopicModal: false,
+    selectedTopic: null
   });
   useEffect(() => {
     dispatch(GetTopics());
+    getContent(contentSelector.topics[0]._id)
   }, [GetTopics]);
+
+  const getContent = (topicId: string) => {
+    dispatch(GetItemsAction(topicId))
+  }
 
   const openAddTopic = () => {
     setState({ ...state, addTopicModal: true })
@@ -43,15 +51,27 @@ const Content = () => {
 
   const closeCreateTopicModal = () => {
     dispatch(GetTopics());
-    setState({ ...state, addTopicModal: false })
+    setState({ ...state, addTopicModal: false, selectedTopic: null })
+  }
+
+  const editTopic = async (topicId: string) => {
+    debugger
+    const topic = await dispatch(GetTopic(topicId)) as any
+    if (topic) {
+      setState({...state, selectedTopic: topic, addTopicModal: true})
+    }
+  }
+
+  const removeTopic = async (topicId: string) => {
+
   }
 
   return (
     <Card className="content-card">
       <Card className="topic-container">
         <div className="topics-section">
-          {contentSelector.topics.map((topic) => {
-            return <TopicItem topic={topic} />;
+          {contentSelector.topics.map((topic, i) => {
+            return <TopicItem topic={topic} key={i} removeTopic={removeTopic} editTopic={editTopic} />;
           })}
         </div>
         <div className="add-topic-icon" onClick={openAddTopic}>
@@ -65,17 +85,18 @@ const Content = () => {
             <TableRow>
               <TableCell>Title</TableCell>
               <TableCell>Description</TableCell>
+              <TableCell>Appointment</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-          {state.content.map((item, i) => {
-            return (
+            {contentSelector.records.map((item, i) => {
+              return (
                 <TableRow key={i}>
                   <TableCell>{item.title}</TableCell>
                   <TableCell>{item.description}</TableCell>
                 </TableRow>
-            );
-          })}
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
@@ -86,7 +107,7 @@ const Content = () => {
         id="add-tickets-dialog"
       >
         <DialogContent>
-          <AddTopic addAndClose={closeCreateTopicModal} />
+          <AddTopic topic={state.selectedTopic} addAndClose={closeCreateTopicModal} />
         </DialogContent>
       </Dialog>
     </Card>
