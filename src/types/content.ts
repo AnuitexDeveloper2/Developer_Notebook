@@ -8,6 +8,6 @@ export interface Topic {
 
 export interface Record {
     title: string;
-    _id: string;
+    _id?: string;
     description: string;
 }

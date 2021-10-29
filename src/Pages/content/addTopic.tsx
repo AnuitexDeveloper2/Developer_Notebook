@@ -2,7 +2,7 @@ import { Box, Card } from '@material-ui/core';
 import React, { ChangeEvent, ChangeEventHandler, FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { httpMultipart, sendMultipart } from '../../helper/request';
-import { CreateTopic } from '../../redux/actions/content';
+import { CreateTopic, EditTopic } from '../../redux/actions/content';
 import { Topic } from '../../types/content';
 
 import "./index.css"
@@ -21,14 +21,15 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
         preview: '',
         title: '',
         description: '',
-        image: ''
+        image: '',
+        id: ''
     })
 
-    useEffect(()=> {
+    useEffect(() => {
         if (topic) {
-            setState({...state, title: topic.title, description: topic.description, image: topic.img as any})
+            setState({ ...state, title: topic.title, description: topic.description, image: topic.img as any, id: topic._id })
         }
-    },[topic])
+    }, [topic])
     const setImage = (event: any) => {
         setState(
             {
@@ -41,19 +42,29 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
 
     const onSubmit = async (event: any) => {
         event.preventDefault()
-
-        const topic = {
+        const newTopic = {
             title: state.title,
             description: state.description
         }
-
-        const newTopic: any = await dispatch(CreateTopic(topic))
+        if (!topic) {
+            const createdTopic: any = await dispatch(CreateTopic(newTopic))
+            sendImage(createdTopic._id)
+        } else {
+            const editedTopic = {...topic, img: state.image}
+            const result: any = await dispatch(EditTopic(editedTopic, state.id))
+            if (state.preview) {
+                sendImage(result._id)
+            }
+        }
+        addAndClose()
+    }
+    
+    const sendImage = async(id: string) => {
         let formData = new FormData();
         if (state.imagesArray.length > 0) {
             formData.append("image", state.imagesArray[0])
-            const result = await sendMultipart(formData, newTopic._id)
+            await sendMultipart(formData, id)
         }
-        addAndClose()
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -63,7 +74,7 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
         <Box padding="10px">
             <div className="add-topic-title">
                 <div>
-                    New Topic
+                    {topic ? "Edit" : "New"} Topic
                 </div>
             </div>
             <div>
@@ -81,7 +92,7 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
                     </div>
                     <input className="" type="file" name="imagesArray" onChange={setImage} />
                     {state.preview && <img className="topic-img-preview" src={state.preview} />}
-                    {!state.preview && state.image && <img className="topic-img-preview" src={`https://topic-images1.s3.eu-central-1.amazonaws.com/${state.image}`} alt=""  />}
+                    {!state.preview && state.image && <img className="topic-img-preview" src={`https://topic-images1.s3.eu-central-1.amazonaws.com/${state.image}`} alt="" />}
                 </div>
 
                 <div className="add-topic-image">

@@ -35,7 +35,6 @@ export const GetTopic: ActionCreator<
                     method: 'GET',
                     path: `topics/${id}`,
                 }
-                debugger
                 const result = await http(config)
                 return result.parsedBody as any
             }
@@ -54,26 +53,19 @@ export const CreateTopic: ActionCreator<
                 }
 
                 const result = await http(config)
-
-                const getTopicsAction = {
-                    type: "CREATE_TOPIC",
-                    result: result.parsedBody
-                }
                 return result.parsedBody as any
             }
         }
-
-
 
 export const EditTopic: ActionCreator<
     ThunkAction<Promise<Record>,
         any,
         null,
-        types.EditTopicAction>> = (data) => {
+        types.EditTopicAction>> = (data, id) => {
             return async (dispatch: Dispatch) => {
                 const config = {
                     method: 'PUT',
-                    path: 'topics',
+                    path: `topics/${id}`,
                     body: data
                 }
 
@@ -101,5 +93,21 @@ export const GetItemsAction: ActionCreator<
                     result: result.parsedBody
                 }
                 dispatch(getTopicsAction)
+            }
+        }
+
+export const RemoveTopicAction: ActionCreator<
+    ThunkAction<Promise<void>,
+        any,
+        null,
+        types.RemoveTopicAction>> = (topicId: any) => {
+            return async (dispatch: Dispatch) => {
+                const config = {
+                    method: 'DELETE',
+                    path: `topics/${topicId}`,
+                }
+
+                const result = await http(config)
+                return result.parsedBody as any
             }
         }

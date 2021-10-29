@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './index.css';
-import { GetItemsAction, GetTopics, GetTopic } from '../../redux/actions/content';
+import { GetItemsAction, GetTopics, GetTopic, RemoveTopicAction } from '../../redux/actions/content';
 import { AppState } from '../../redux/reducers/rootReducer';
 import TopicItem from './topicItem';
 import AddTopic from './addTopic';
@@ -37,12 +37,12 @@ const Content = () => {
     selectedTopic: null
   });
   useEffect(() => {
-    dispatch(GetTopics());
     getContent(contentSelector.topics[0]._id)
   }, [GetTopics]);
-
+  
   const getContent = (topicId: string) => {
     dispatch(GetItemsAction(topicId))
+    dispatch(GetTopics());
   }
 
   const openAddTopic = () => {
@@ -55,15 +55,19 @@ const Content = () => {
   }
 
   const editTopic = async (topicId: string) => {
-    debugger
     const topic = await dispatch(GetTopic(topicId)) as any
     if (topic) {
-      setState({...state, selectedTopic: topic, addTopicModal: true})
+      setState({ ...state, selectedTopic: topic, addTopicModal: true })
+      dispatch(GetTopics());
+      getContent(contentSelector.topics[0]._id)
     }
   }
 
   const removeTopic = async (topicId: string) => {
-
+    const topic = await dispatch(RemoveTopicAction(topicId)) as any
+    if (topic) {
+      getContent(contentSelector.topics[0]._id)
+    }
   }
 
   return (
