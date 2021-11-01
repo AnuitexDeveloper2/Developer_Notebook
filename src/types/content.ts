@@ -1,9 +1,10 @@
-export interface Topic {
-    title: string;
+export interface Topic extends Record {
     img: Array<Buffer>;
     imgSrc?: string
-    _id: string;
-    description: string
+}
+
+export interface ContentItem extends Record {
+    appointment: string
 }
 
 export interface Record {

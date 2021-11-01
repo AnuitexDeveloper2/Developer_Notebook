@@ -1,6 +1,6 @@
 import { Reducer } from "redux";
 import { Topic, Record } from "../../types/content";
-import { ContentActions } from "../actions/content/types";
+import { TopicActions } from "../actions/topic/types";
 
 export interface ContentState {
     topics: Array<Topic>
@@ -14,12 +14,10 @@ const initialState: ContentState = {
 
 const neverReached = (never: never) => { };
 
-export const contentReducer: Reducer<ContentState, ContentActions> = (state = initialState, action) => {
+export const contentReducer: Reducer<ContentState, TopicActions> = (state = initialState, action) => {
     switch (action.type) {
         case "GET_TOPICS":
            return {...state, topics: action.result}
-        case "GET_ITEMS":
-            return {...state, records: action.result}
         // default:
         //     neverReached(action)
     }

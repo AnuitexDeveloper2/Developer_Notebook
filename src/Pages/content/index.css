@@ -37,6 +37,32 @@
   display: none;
 }
 
+.add-content-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-content {
+  width: 10%;
+  color: #ffff;
+  margin: 20px;
+  border: none;
+  background-color: #824c67;
+  padding: 5px;
+  border-radius: 5px;
+  display: block;
+  cursor: pointer;
+}
+
+.add-content:hover {
+  transition: 0.5s;
+  transform: scale(1.1);
+}
+
+.add-content-icon {
+  display: none;
+}
+
 .add-topic-title {
   display: flex;
   justify-content: center;
@@ -125,10 +151,8 @@
 }
 
 .admin-topic-section:hover .admin-topic-title {
-  /* font-size: larger; */
   color: #2196f3;
   cursor: pointer;
-  /* transition: font-size 0.5s; */
 }
 
 @media screen and (max-width: 765px) {
@@ -139,8 +163,20 @@
   .add-topic {
     display: none;
   }
+  .add-content-icon {
+    margin: 10px 0;
+    display: block;
+  }
+  .add-content {
+    display: none;
+  }
 }
 
 .add-topic-description {
   max-width: 150px;
+}
+
+.transparent-btn {
+  background-color: transparent;
+  border: none;
 }

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  Toolbar,
   Card,
   TableContainer,
   Table,
@@ -11,21 +10,24 @@ import {
   TableCell,
   Dialog,
   DialogContent,
-  Box,
   TableBody,
 } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './index.css';
-import { GetItemsAction, GetTopics, GetTopic, RemoveTopicAction } from '../../redux/actions/content';
+import { GetTopics, GetTopic, RemoveTopicAction } from '../../redux/actions/topic';
 import { AppState } from '../../redux/reducers/rootReducer';
 import TopicItem from './topicItem';
 import AddTopic from './addTopic';
-import { Topic } from '../../types/content';
+import { ContentItem, Topic } from '../../types/content';
+import AddContent from './addContent';
+import { GetContent } from '../../redux/actions/content';
 
 interface State {
-  content: Array<any>;
+  content: Array<ContentItem>;
   addTopicModal: boolean;
-  selectedTopic: Topic | null
+  addContentModal: boolean;
+  selectedTopic: Topic | null;
+  selectedContent: ContentItem | null
 }
 
 const Content = () => {
@@ -34,24 +36,27 @@ const Content = () => {
   const [state, setState] = useState<State>({
     content: [],
     addTopicModal: false,
-    selectedTopic: null
+    addContentModal: false,
+    selectedTopic: null,
+    selectedContent: null
   });
   useEffect(() => {
     getContent(contentSelector.topics[0]._id)
   }, [GetTopics]);
-  
-  const getContent = (topicId: string) => {
-    dispatch(GetItemsAction(topicId))
+
+  const getContent = async(topicId: string) => {
+    const result = await dispatch(GetContent(topicId)) as any
     dispatch(GetTopics());
+    setState({...state, content: result})
   }
 
-  const openAddTopic = () => {
-    setState({ ...state, addTopicModal: true })
+  const openAddTopic = (event: React.MouseEvent<HTMLElement>) => {
+    setState({ ...state, [(event.currentTarget as any).name]: true })
   };
 
   const closeCreateTopicModal = () => {
     dispatch(GetTopics());
-    setState({ ...state, addTopicModal: false, selectedTopic: null })
+    setState({ ...state, addTopicModal: false, selectedTopic: null, addContentModal: false })
   }
 
   const editTopic = async (topicId: string) => {
@@ -78,11 +83,23 @@ const Content = () => {
             return <TopicItem topic={topic} key={i} removeTopic={removeTopic} editTopic={editTopic} />;
           })}
         </div>
-        <div className="add-topic-icon" onClick={openAddTopic}>
-          <AddCircleOutlineIcon />
+        <div className="add-topic-icon" >
+          <button className="transparent-btn" name="addTopicModal" onClick={openAddTopic}>
+            <AddCircleOutlineIcon />
+          </button>
         </div>
-        <button className="add-topic" onClick={openAddTopic}>Add Topic</button>
+        <button className="add-topic" name="addTopicModal" onClick={openAddTopic}>Add Topic</button>
+
       </Card>
+      <div className="add-content-section">
+        <div className="add-content-icon">
+          <button className="transparent-btn" name="addContentModal" onClick={openAddTopic}>
+            <AddCircleOutlineIcon />
+          </button>
+        </div>
+        <button className="add-content" name="addContentModal" onClick={openAddTopic}>Add Content</button>
+      </div>
+
       <TableContainer className="table-container">
         <Table>
           <TableHead>
@@ -93,11 +110,12 @@ const Content = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {contentSelector.records.map((item, i) => {
+            {state.content.map((item, i) => {
               return (
                 <TableRow key={i}>
                   <TableCell>{item.title}</TableCell>
                   <TableCell>{item.description}</TableCell>
+                  <TableCell>{item.appointment}</TableCell>
                 </TableRow>
               );
             })}
@@ -112,6 +130,12 @@ const Content = () => {
       >
         <DialogContent>
           <AddTopic topic={state.selectedTopic} addAndClose={closeCreateTopicModal} />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={state.addContentModal} onClose={closeCreateTopicModal}>
+        <DialogContent>
+          <AddContent content={state.selectedContent} onClose={closeCreateTopicModal} />
         </DialogContent>
       </Dialog>
     </Card>

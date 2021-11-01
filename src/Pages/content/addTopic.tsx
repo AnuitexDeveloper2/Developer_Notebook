@@ -1,8 +1,8 @@
-import { Box, Card } from '@material-ui/core';
-import React, { ChangeEvent, ChangeEventHandler, FC, useEffect, useState } from 'react';
+import { Box } from '@material-ui/core';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { httpMultipart, sendMultipart } from '../../helper/request';
-import { CreateTopic, EditTopic } from '../../redux/actions/content';
+import { sendMultipart } from '../../helper/request';
+import { CreateTopic, EditTopic } from '../../redux/actions/topic';
 import { Topic } from '../../types/content';
 
 import "./index.css"
@@ -50,7 +50,7 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
             const createdTopic: any = await dispatch(CreateTopic(newTopic))
             sendImage(createdTopic._id)
         } else {
-            const editedTopic = {...topic, img: state.image}
+            const editedTopic = {...newTopic, img: state.image}
             const result: any = await dispatch(EditTopic(editedTopic, state.id))
             if (state.preview) {
                 sendImage(result._id)
