@@ -19,6 +19,12 @@
   text-decoration: none;
 }
 
+
+.header-title > a {
+  color: unset;
+  text-decoration: unset;
+}
+
 .user-icon {
   width: 16px;
   float: right;
@@ -28,6 +34,7 @@
   border-radius: 5px;
   font-weight: bold;
   color: white;
+  cursor: pointer;
 }
 ul {
   list-style-type: none;

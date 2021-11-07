@@ -62,7 +62,6 @@ export const EditTopic: ActionCreator<
         any,
         null,
         types.EditTopicAction>> = (data, id) => {
-            debugger
             return async (dispatch: Dispatch) => {
                 const config = {
                     method: 'PUT',

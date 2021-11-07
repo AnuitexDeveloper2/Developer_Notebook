@@ -41,13 +41,15 @@ const Header: FC<Props> = (props) => {
         <div className="header">
             <div></div>
             <div className="header-title">
-                Notebook
-                </div>
+                <a href="/">
+                    Notebook
+                </a>
+            </div>
             <div>
 
                 <img src={user} onClick={showDropdownMenu} className="user-icon" alt="" />
                 {state.showMenu ? (
-                    <HeaderMenu handleSelect={handleSelect} role={props.user.role} logOut={props.logOut}/>
+                    <HeaderMenu handleSelect={handleSelect} role={props.user.role} logOut={props.logOut} />
                 ) :
                     (
                         null

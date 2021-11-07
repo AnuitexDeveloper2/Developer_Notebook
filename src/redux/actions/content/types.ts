@@ -5,4 +5,6 @@ export interface CreateContentAction extends Action<"CREATE_CONTENT"> { result: 
 
 export interface GetContentAction extends Action<"GER_CONTENT"> { result: Array<Record> }
 
-export type ContentsAction = CreateContentAction | GetContentAction
+export interface RemoveContentAction extends Action<"REMOVE_CONTENT"> { result: any }
+
+export type ContentsAction = CreateContentAction | GetContentAction | RemoveContentAction

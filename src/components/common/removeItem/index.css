@@ -1,0 +1,23 @@
+.user-remove-button {
+    cursor: pointer;
+    background-color: #bd5757 !important;
+    opacity: 0.8;
+  }
+  
+  .user-cancel-button {
+    cursor: pointer;
+    background-color: rgb(0, 123, 255) !important;
+    opacity: 0.8;
+  }
+  
+  .user-remove-button:hover {
+    opacity: 1;
+    transform: scale(1.05);
+    transition: transform 0.5s;
+  }
+  
+  .user-cancel-button:hover {
+    opacity: 1;
+    transform: scale(1.05);
+    transition: transform 0.5s;
+  }

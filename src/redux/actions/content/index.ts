@@ -13,7 +13,7 @@ export const GetContent: ActionCreator<
             return async (dispatch: Dispatch) => {
                 const config = {
                     method: 'GET',
-                    path: 'contents/admin',
+                    path: `contents/admin/${topicId}`,
                 }
 
                 const result = await http(config)
@@ -39,7 +39,39 @@ ThunkAction<Promise<Record>,
             }
 
             const result = await http(config)
-            debugger
+            return result.parsedBody as any
+        }
+}
+
+export const RemoveContent:  ActionCreator<
+ThunkAction<Promise<Record>,
+    any,
+    null,
+    types.RemoveContentAction>> = (id) => {
+        return async (dispatch: Dispatch)=> {
+            const config = {
+                method: 'DELETE',
+                path: `contents/admin/${id}`,
+            }
+
+            const result = await http(config)
+            return result.parsedBody as any
+        }
+}
+
+export const EditContent:  ActionCreator<
+ThunkAction<Promise<Record>,
+    any,
+    null,
+    types.CreateContentAction>> = (data, id) => {
+        return async (dispatch: Dispatch)=> {
+            const config = {
+                method: 'PUT',
+                path: `contents/admin/${id}`,
+                body: data
+            }
+
+            const result = await http(config)
             return result.parsedBody as any
         }
 }

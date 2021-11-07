@@ -12,42 +12,85 @@ import {
   DialogContent,
   TableBody,
 } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { makeStyles } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import './index.css';
 import { GetTopics, GetTopic, RemoveTopicAction } from '../../redux/actions/topic';
 import { AppState } from '../../redux/reducers/rootReducer';
 import TopicItem from './topicItem';
 import AddTopic from './addTopic';
 import { ContentItem, Topic } from '../../types/content';
 import AddContent from './addContent';
-import { GetContent } from '../../redux/actions/content';
+import { EditContent, GetContent, RemoveContent } from '../../redux/actions/content';
 
+import './index.css';
 interface State {
   content: Array<ContentItem>;
   addTopicModal: boolean;
   addContentModal: boolean;
   selectedTopic: Topic | null;
-  selectedContent: ContentItem | null
+  selectedContent: ContentItem | null;
+  actualTopic: Topic | null
 }
 
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  container: {
+    height: 'auto',
+    minHeight: '550px',
+    ['@media (max-width:576px)']: {
+      innerHeight: '100%',
+      height: '100%'
+    },
+  },
+  paperFullWidth: {
+    width: '100%',
+  },
+  paperWidthSm: {
+    maxWidth: 'unset',
+  },
+  paper: {
+    margin: '0px',
+    borderTopLeftRadius: '16px',
+    borderTopRightRadius: '16px',
+    ['@media (max-width:576px)']: {
+      borderTopLeftRadius: '0px',
+      borderTopRightRadius: '0px',
+    },
+  },
+});
+
+
 const Content = () => {
+
   const dispatch = useDispatch();
+
   const contentSelector = useSelector((state: AppState) => state.content);
+
   const [state, setState] = useState<State>({
     content: [],
     addTopicModal: false,
     addContentModal: false,
     selectedTopic: null,
-    selectedContent: null
+    selectedContent: null,
+    actualTopic: null
   });
+
+  const classes = useStyles();
+
   useEffect(() => {
-    getContent(contentSelector.topics[0]._id)
+    getContent(contentSelector.topics[0])
   }, [GetTopics]);
 
-  const getContent = async(topicId: string) => {
-    const result = await dispatch(GetContent(topicId)) as any
+  const getContent = async (topic: Topic) => {
+    const result = await dispatch(GetContent(topic._id)) as any
     dispatch(GetTopics());
-    setState({...state, content: result})
+    setState({ ...state, content: result, actualTopic: topic, addTopicModal: false, selectedTopic: null, addContentModal: false, selectedContent: null })
   }
 
   const openAddTopic = (event: React.MouseEvent<HTMLElement>) => {
@@ -56,31 +99,44 @@ const Content = () => {
 
   const closeCreateTopicModal = () => {
     dispatch(GetTopics());
-    setState({ ...state, addTopicModal: false, selectedTopic: null, addContentModal: false })
+    getContent(state.actualTopic)
   }
 
   const editTopic = async (topicId: string) => {
     const topic = await dispatch(GetTopic(topicId)) as any
     if (topic) {
       setState({ ...state, selectedTopic: topic, addTopicModal: true })
-      dispatch(GetTopics());
-      getContent(contentSelector.topics[0]._id)
     }
   }
 
   const removeTopic = async (topicId: string) => {
     const topic = await dispatch(RemoveTopicAction(topicId)) as any
     if (topic) {
-      getContent(contentSelector.topics[0]._id)
+      getContent(contentSelector.topics[0])
     }
   }
+
+  const removeContent = async (contentId: string) => {
+    const content = await dispatch(RemoveContent(contentId)) as any
+  }
+
+  const editContent = async (contentItem: ContentItem) => {
+    setState({ ...state, selectedContent: contentItem, addContentModal: true })
+    const content = await dispatch(EditContent(contentItem)) as any
+  }
+
+  const selectTopic = (topic: Topic) => {
+    setState({ ...state, actualTopic: topic })
+    getContent(topic)
+  }
+
 
   return (
     <Card className="content-card">
       <Card className="topic-container">
         <div className="topics-section">
-          {contentSelector.topics.map((topic, i) => {
-            return <TopicItem topic={topic} key={i} removeTopic={removeTopic} editTopic={editTopic} />;
+          {contentSelector.topics.map((topic) => {
+            return <TopicItem actualTopic={state.actualTopic} topic={topic} key={topic._id} removeTopic={removeTopic} editTopic={editTopic} selectTopic={selectTopic} />;
           })}
         </div>
         <div className="add-topic-icon" >
@@ -102,20 +158,32 @@ const Content = () => {
 
       <TableContainer className="table-container">
         <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Appointment</TableCell>
+          <TableHead id="table-head">
+            <TableRow >
+              <TableCell id="table-head-content">Title</TableCell>
+              <TableCell id="table-head-content">Description</TableCell>
+              <TableCell id="table-head-content">Appointment</TableCell>
+              <TableCell id="table-head-content">Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody id="rt-table">
             {state.content.map((item, i) => {
               return (
                 <TableRow key={i}>
                   <TableCell>{item.title}</TableCell>
                   <TableCell>{item.description}</TableCell>
                   <TableCell>{item.appointment}</TableCell>
+                  <TableCell>
+                    <div className="content-actions">
+                      <div>
+                        <EditIcon className="edit-image-icon" onClick={() => editContent(item)} />
+                      </div>
+                      <div>
+
+                        <HighlightOffIcon className="remove-image-icon" onClick={() => removeContent(item._id)} />
+                      </div>
+                    </div>
+                  </TableCell>
                 </TableRow>
               );
             })}
@@ -133,9 +201,19 @@ const Content = () => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={state.addContentModal} onClose={closeCreateTopicModal}>
+      <Dialog
+        fullWidth={true}
+        fullScreen={true}
+        open={state.addContentModal}
+        onClose={closeCreateTopicModal}
+        classes={{
+          root: classes.root,
+          container: classes.container,
+          paper: classes.paper,
+        }}
+      >
         <DialogContent>
-          <AddContent content={state.selectedContent} onClose={closeCreateTopicModal} />
+          <AddContent topic={state.actualTopic} content={state.selectedContent} onClose={closeCreateTopicModal} />
         </DialogContent>
       </Dialog>
     </Card>
