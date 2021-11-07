@@ -16,22 +16,34 @@ import EditIcon from '@material-ui/icons/Edit';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { makeStyles } from '@material-ui/core';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import { GetTopics, GetTopic, RemoveTopicAction } from '../../redux/actions/topic';
+import {
+  GetTopics,
+  GetTopic,
+  RemoveTopicAction,
+} from '../../redux/actions/topic';
 import { AppState } from '../../redux/reducers/rootReducer';
 import TopicItem from './topicItem';
 import AddTopic from './addTopic';
 import { ContentItem, Topic } from '../../types/content';
 import AddContent from './addContent';
-import { EditContent, GetContent, RemoveContent } from '../../redux/actions/content';
+import {
+  EditContent,
+  GetContent,
+  RemoveContent,
+} from '../../redux/actions/content';
 
 import './index.css';
+import { useModalState } from '../../components/hooks/modal';
+import RemoveItem from '../../components/common/removeItem';
+import PaginationTable from '../../components/common/pagination';
 interface State {
   content: Array<ContentItem>;
   addTopicModal: boolean;
   addContentModal: boolean;
   selectedTopic: Topic | null;
   selectedContent: ContentItem | null;
-  actualTopic: Topic | null
+  actualTopic: Topic | null;
+  total: number
 }
 
 const useStyles = makeStyles({
@@ -45,7 +57,7 @@ const useStyles = makeStyles({
     minHeight: '550px',
     ['@media (max-width:576px)']: {
       innerHeight: '100%',
-      height: '100%'
+      height: '100%',
     },
   },
   paperFullWidth: {
@@ -65,101 +77,155 @@ const useStyles = makeStyles({
   },
 });
 
-
 const Content = () => {
-
   const dispatch = useDispatch();
-
+  const { onOpen, onClose, isOpen } = useModalState();
   const contentSelector = useSelector((state: AppState) => state.content);
 
   const [state, setState] = useState<State>({
+    total: 0,
     content: [],
     addTopicModal: false,
     addContentModal: false,
     selectedTopic: null,
     selectedContent: null,
-    actualTopic: null
+    actualTopic: null,
   });
+
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page :1,
+    perPage: 10
+  })
 
   const classes = useStyles();
 
   useEffect(() => {
-    getContent(contentSelector.topics[0])
+    dispatch(GetTopics());
+    if (contentSelector.topics.length > 0) {
+      getContent(contentSelector.topics[0]);
+    }
   }, [GetTopics]);
 
   const getContent = async (topic: Topic) => {
-    const result = await dispatch(GetContent(topic._id)) as any
+    const result = (await dispatch(GetContent(topic._id))) as any;
     dispatch(GetTopics());
-    setState({ ...state, content: result, actualTopic: topic, addTopicModal: false, selectedTopic: null, addContentModal: false, selectedContent: null })
-  }
+    setState({
+      ...state,
+      content: result.data,
+      total: result.count,
+      actualTopic: topic,
+      addTopicModal: false,
+      selectedTopic: null,
+      addContentModal: false,
+      selectedContent: null,
+    });
+  };
 
   const openAddTopic = (event: React.MouseEvent<HTMLElement>) => {
-    setState({ ...state, [(event.currentTarget as any).name]: true })
+    setState({ ...state, [(event.currentTarget as any).name]: true });
   };
 
   const closeCreateTopicModal = () => {
     dispatch(GetTopics());
-    getContent(state.actualTopic)
-  }
+    getContent(state.actualTopic);
+  };
 
   const editTopic = async (topicId: string) => {
-    const topic = await dispatch(GetTopic(topicId)) as any
+    const topic = (await dispatch(GetTopic(topicId))) as any;
     if (topic) {
-      setState({ ...state, selectedTopic: topic, addTopicModal: true })
+      setState({ ...state, selectedTopic: topic, addTopicModal: true });
     }
-  }
+  };
 
   const removeTopic = async (topicId: string) => {
-    const topic = await dispatch(RemoveTopicAction(topicId)) as any
+    const topic = (await dispatch(RemoveTopicAction(topicId))) as any;
     if (topic) {
-      getContent(contentSelector.topics[0])
+      getContent(contentSelector.topics[0]);
     }
-  }
+  };
 
-  const removeContent = async (contentId: string) => {
-    const content = await dispatch(RemoveContent(contentId)) as any
-  }
+  const removeContent = async () => {
+    const content = (await dispatch(
+      RemoveContent(state.selectedContent._id),
+    )) as any;
+    if (content) {
+      getContent(contentSelector.topics[0]);
+      onClose();
+    }
+  };
 
   const editContent = async (contentItem: ContentItem) => {
-    setState({ ...state, selectedContent: contentItem, addContentModal: true })
-    const content = await dispatch(EditContent(contentItem)) as any
-  }
+    setState({ ...state, selectedContent: contentItem, addContentModal: true });
+    const content = (await dispatch(EditContent(contentItem))) as any;
+  };
 
   const selectTopic = (topic: Topic) => {
-    setState({ ...state, actualTopic: topic })
-    getContent(topic)
-  }
+    setState({ ...state, actualTopic: topic });
+    getContent(topic);
+  };
 
-
+  const openRemove = (contentItem: ContentItem) => {
+    setState({ ...state, selectedContent: contentItem });
+    onOpen();
+  };
   return (
     <Card className="content-card">
       <Card className="topic-container">
         <div className="topics-section">
           {contentSelector.topics.map((topic) => {
-            return <TopicItem actualTopic={state.actualTopic} topic={topic} key={topic._id} removeTopic={removeTopic} editTopic={editTopic} selectTopic={selectTopic} />;
+            return (
+              <TopicItem
+                actualTopic={state.actualTopic}
+                topic={topic}
+                key={topic._id}
+                removeTopic={removeTopic}
+                editTopic={editTopic}
+                selectTopic={selectTopic}
+              />
+            );
           })}
         </div>
-        <div className="add-topic-icon" >
-          <button className="transparent-btn" name="addTopicModal" onClick={openAddTopic}>
+        <div className="add-topic-icon">
+          <button
+            className="transparent-btn"
+            name="addTopicModal"
+            onClick={openAddTopic}
+          >
             <AddCircleOutlineIcon />
           </button>
         </div>
-        <button className="add-topic" name="addTopicModal" onClick={openAddTopic}>Add Topic</button>
-
+        <button
+          className="add-topic"
+          name="addTopicModal"
+          onClick={openAddTopic}
+        >
+          Add Topic
+        </button>
       </Card>
       <div className="add-content-section">
         <div className="add-content-icon">
-          <button className="transparent-btn" name="addContentModal" onClick={openAddTopic}>
+          <button
+            className="transparent-btn"
+            name="addContentModal"
+            onClick={openAddTopic}
+          >
             <AddCircleOutlineIcon />
           </button>
         </div>
-        <button className="add-content" name="addContentModal" onClick={openAddTopic}>Add Content</button>
+        <button
+          className="add-content"
+          name="addContentModal"
+          onClick={openAddTopic}
+        >
+          Add Content
+        </button>
       </div>
 
       <TableContainer className="table-container">
         <Table>
           <TableHead id="table-head">
-            <TableRow >
+            <TableRow>
               <TableCell id="table-head-content">Title</TableCell>
               <TableCell id="table-head-content">Description</TableCell>
               <TableCell id="table-head-content">Appointment</TableCell>
@@ -176,11 +242,16 @@ const Content = () => {
                   <TableCell>
                     <div className="content-actions">
                       <div>
-                        <EditIcon className="edit-image-icon" onClick={() => editContent(item)} />
+                        <EditIcon
+                          className="edit-image-icon"
+                          onClick={() => editContent(item)}
+                        />
                       </div>
                       <div>
-
-                        <HighlightOffIcon className="remove-image-icon" onClick={() => removeContent(item._id)} />
+                        <HighlightOffIcon
+                          className="remove-image-icon"
+                          onClick={() => openRemove(item)}
+                        />
                       </div>
                     </div>
                   </TableCell>
@@ -189,6 +260,10 @@ const Content = () => {
             })}
           </TableBody>
         </Table>
+        <PaginationTable
+          total={state.total}
+          title="Content"
+        />
       </TableContainer>
       <Dialog
         fullWidth
@@ -197,7 +272,10 @@ const Content = () => {
         id="add-tickets-dialog"
       >
         <DialogContent>
-          <AddTopic topic={state.selectedTopic} addAndClose={closeCreateTopicModal} />
+          <AddTopic
+            topic={state.selectedTopic}
+            addAndClose={closeCreateTopicModal}
+          />
         </DialogContent>
       </Dialog>
 
@@ -213,7 +291,21 @@ const Content = () => {
         }}
       >
         <DialogContent>
-          <AddContent topic={state.actualTopic} content={state.selectedContent} onClose={closeCreateTopicModal} />
+          <AddContent
+            topic={state.actualTopic}
+            content={state.selectedContent}
+            onClose={closeCreateTopicModal}
+          />
+        </DialogContent>
+      </Dialog>
+      <Dialog fullWidth open={isOpen} onClose={onClose}>
+        <DialogContent>
+          <RemoveItem
+            closeModal={onClose}
+            removeUser={removeContent}
+            minorText=""
+            mainText="Content"
+          />
         </DialogContent>
       </Dialog>
     </Card>

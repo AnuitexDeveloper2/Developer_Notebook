@@ -116,14 +116,12 @@
 
 .admin-topic-wrapper {
   display: flex;
-  width: calc(100% / 3 - 1.5rem);
-  margin: 0 0.75rem 2.5rem 0.75rem;
-  flex-wrap: wrap;
 }
 
 .selected-topic {
   background-color: turquoise;
   border-radius: 10px;
+  margin: 10px;
 }
 
 .remove-image-icon {
