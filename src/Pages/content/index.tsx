@@ -171,7 +171,7 @@ const Content = () => {
   };
   return (
     <Card className="content-card">
-      <Card className="topic-container">
+      <Card className="topic-container-admin">
         <div className="topics-section">
           {contentSelector.topics.map((topic) => {
             return (

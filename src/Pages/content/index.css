@@ -3,7 +3,7 @@
   padding: 20px;
 }
 
-.topic-container {
+.topic-container-admin {
   display: flex;
 }
 
@@ -589,6 +589,32 @@ input[type='radio'] {
 }
 
 .option:nth-child(6):hover ~ #option-bg {
+  top: 200px;
+  background-color: #006400;
+  border-radius: 0 0 4px 4px;
+}
+
+.option:nth-child(7):hover ~ #option-bg {
+  top: 40px;
+  background-color: #ea4c89;
+}
+
+.option:nth-child(8):hover ~ #option-bg {
+  top: 80px;
+  background-color: #0057ff;
+}
+
+.option:nth-child(9):hover ~ #option-bg {
+  top: 120px;
+  background-color: #32c766;
+}
+
+.option:nth-child(10):hover ~ #option-bg {
+  top: 160px;
+  background-color: #f48024;
+}
+
+.option:nth-child(11):hover ~ #option-bg {
   top: 200px;
   background-color: #006400;
   border-radius: 0 0 4px 4px;

@@ -29,8 +29,8 @@ const TopicItem: FC<Props> = ({ topic, editTopic, removeTopic, actualTopic, sele
     }
 
     return (
-        <div className={`admin-topic-wrapper ${highlight}`} onClick={handleSelect}>
-            <div className="admin-topic-section">
+        <div className={`admin-topic-wrapper ${highlight}`} >
+            <div className="admin-topic-section" onClick={handleSelect}>
                 <div className="admin-topic-title">
                     {topic.title}
                 </div>
