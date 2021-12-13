@@ -519,6 +519,51 @@ input[type='radio'] {
   top: -231px;
 }
 
+.option:nth-child(7) input[type='radio']:checked ~ .label:before {
+  background-color: #ea4c89;
+  border-radius: 0 0 4px 4px;
+}
+
+.option:nth-child(7) input[type='radio']:checked ~ .opt-val {
+  top: -271px;
+}
+
+.option:nth-child(8) input[type='radio']:checked ~ .label:before {
+  background-color: #ea4c89;
+  border-radius: 0 0 4px 4px;
+}
+
+.option:nth-child(8) input[type='radio']:checked ~ .opt-val {
+  top: -301px;
+}
+
+.option:nth-child(9) input[type='radio']:checked ~ .label:before {
+  background-color: #006400;
+  border-radius: 0 0 4px 4px;
+}
+
+.option:nth-child(9) input[type='radio']:checked ~ .opt-val {
+  top: -341px;
+}
+
+.option:nth-child(10) input[type='radio']:checked ~ .label:before {
+  background-color: #006400;
+  border-radius: 0 0 4px 4px;
+}
+
+.option:nth-child(10) input[type='radio']:checked ~ .opt-val {
+  top: -381px;
+}
+
+.option:nth-child(11) input[type='radio']:checked ~ .label:before {
+  background-color: #006400;
+  border-radius: 0 0 4px 4px;
+}
+
+.option:nth-child(11) input[type='radio']:checked ~ .opt-val {
+  top: -421px;
+}
+
 .option .fa-codepen {
   color: #000;
 }
@@ -591,32 +636,36 @@ input[type='radio'] {
 .option:nth-child(6):hover ~ #option-bg {
   top: 200px;
   background-color: #006400;
-  border-radius: 0 0 4px 4px;
 }
 
 .option:nth-child(7):hover ~ #option-bg {
-  top: 40px;
+  top: 240px;
   background-color: #ea4c89;
 }
 
 .option:nth-child(8):hover ~ #option-bg {
-  top: 80px;
+  top: 280px;
   background-color: #0057ff;
 }
 
 .option:nth-child(9):hover ~ #option-bg {
-  top: 120px;
+  top: 320px;
   background-color: #32c766;
 }
 
 .option:nth-child(10):hover ~ #option-bg {
-  top: 160px;
+  top: 360px;
   background-color: #f48024;
 }
 
 .option:nth-child(11):hover ~ #option-bg {
-  top: 200px;
+  top: 400px;
   background-color: #006400;
+}
+
+.option:nth-child(12):hover ~ #option-bg {
+  top: 440px;
+  background-color: #653fcc;
   border-radius: 0 0 4px 4px;
 }
 
@@ -645,4 +694,24 @@ input[type='radio'] {
 
 #rt-table tr:nth-of-type(even) {
   background-color: rgb(236, 228, 228);
+}
+
+.appointment-item {
+  display: flex;
+  justify-content: center;
+}
+
+.appointment-item button {
+    color: #ffff;
+    border: none;
+    background-color: #824c67;
+    padding: 5px;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+}
+@media screen and (max-width: 425px) {
+  .appointment-input {
+    width: 80px ;
+  }
 }

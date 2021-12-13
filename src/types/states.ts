@@ -1,5 +1,5 @@
-// export interface HeaderState {
+import { Record } from "./content";
 
-// }
-
-export interface Test {}
+export interface AppointmentState {
+    appointments: Array<Record>
+}

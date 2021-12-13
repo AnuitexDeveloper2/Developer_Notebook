@@ -10,29 +10,33 @@ import { AppState } from '../../redux/reducers/rootReducer';
 const Home = () => {
   const dispatch = useDispatch();
   const contentSelector = useSelector((state: AppState) => state.content);
-  
+
   useEffect(() => {
     dispatch(GetTopics());
   }, []);
 
-  const onFailed = (test: any) => {
-    const token = test;
-  };
-
-  const onSuccess = (test: any) => {
-    const token = test;
+  const goToTopic = (topicId: string) => {
+    window.location.href = `/topic/${topicId}`
   };
   return (
     <div className="home-container">
       <div className="topic-container">
         {contentSelector.topics.map((item, i) => {
-            return (
-              <div className="topic-item-container" key={i}>
-                <div className="topic-item">
-                  <img className="productImage" src={`https://topic-images1.s3.eu-central-1.amazonaws.com/${item.img}`} alt={item.title} />
-                </div>
+          return (
+            <div
+              className="topic-item-container"
+              key={item._id}
+              onClick={() => goToTopic(item._id)}
+            >
+              <div className="topic-item">
+                <img
+                  className="productImage"
+                  src={`https://topic-images1.s3.eu-central-1.amazonaws.com/${item.img}`}
+                  alt={item.title}
+                />
               </div>
-            );
+            </div>
+          );
         })}
       </div>
     </div>

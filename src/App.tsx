@@ -10,6 +10,7 @@ import { HeaderState } from "./redux/reducers/headerReducer";
 import AdminRoute from "./components/common/adminRoute";
 
 import './App.css';
+import TopicPage from "./Pages/topic";
 
 const store = configureStore()
 const modalManager: HeaderState = {
@@ -23,6 +24,7 @@ function App() {
         <Header modalManager={modalManager}/>
         <BrowserRouter>
           <Route exact path="/" component={Home} />
+          <Route exact path='/topic/:id' component={TopicPage}/>
           <AdminRoute>
           <Route exact path="/content" component={Content} />
           </AdminRoute>

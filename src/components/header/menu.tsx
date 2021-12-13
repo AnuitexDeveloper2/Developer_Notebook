@@ -16,21 +16,21 @@ export const HeaderMenu: FC<Props> = ({ handleSelect, role, logOut }) => {
     switch (role) {
         case "User":
             return (
-                <ul>
-                    <li><a className="active" id={"1"} onClick={logOut} href="#Create Page">Log Out</a></li>
+                <ul className="header-menu">
+                    <li className="header-menu-item"><a className="active" id={"1"} onClick={logOut} href="#Create Page">Log Out</a></li>
                 </ul>
             )
         case "Admin":
             return (
-                <ul>
-                    <li><a className="active" id={"1"} onClick={()=>goToPage("/content")} href="#Create Page">Content</a></li>
-                    <li><a className="active" id={"1"} onClick={logOut} href="#Create Page">Log Out</a></li>
+                <ul className="header-menu">
+                    <li className="header-menu-item"><a className="active" id={"1"} onClick={()=>goToPage("/content")} href="#Create Page">Content</a></li>
+                    <li className="header-menu-item"><a className="active" id={"1"} onClick={logOut} href="#Create Page">Log Out</a></li>
                 </ul>
             )
         default:
             return (
-                <ul>
-                    <li><a className="active" id={"1"} onClick={handleSelect} href="#Create Page">Sign In</a></li>
+                <ul className="header-menu">
+                    <li className="header-menu-item"><a className="active" id={"1"} onClick={handleSelect} href="#Create Page">Sign In</a></li>
                 </ul>
             )
     }

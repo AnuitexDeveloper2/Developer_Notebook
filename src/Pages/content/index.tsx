@@ -36,6 +36,7 @@ import './index.css';
 import { useModalState } from '../../components/hooks/modal';
 import RemoveItem from '../../components/common/removeItem';
 import PaginationTable from '../../components/common/pagination';
+import { GetAppointmentsByTopic } from '../../redux/actions/appointntment';
 interface State {
   content: Array<ContentItem>;
   addTopicModal: boolean;
@@ -157,6 +158,7 @@ const Content = () => {
 
   const editContent = async (contentItem: ContentItem) => {
     setState({ ...state, selectedContent: contentItem, addContentModal: true });
+    getAppointments(contentItem.topic)
     const content = (await dispatch(EditContent(contentItem))) as any;
   };
 
@@ -169,6 +171,10 @@ const Content = () => {
     setState({ ...state, selectedContent: contentItem });
     onOpen();
   };
+
+  const getAppointments = async(topicId: string) => {
+    dispatch(GetAppointmentsByTopic(topicId))
+  }
   return (
     <Card className="content-card">
       <Card className="topic-container-admin">
