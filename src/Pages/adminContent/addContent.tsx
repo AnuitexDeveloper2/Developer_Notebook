@@ -1,12 +1,24 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FC,
+  useEffect,
+  useState,
+  FormEvent,
+  ChangeEventHandler,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
 import { CreateContent, EditContent } from '../../redux/actions/content';
-import { ContentItem, Topic } from '../../types/content';
+import { ContentItem, Record, Topic } from '../../types/content';
 import { AppState } from '../../redux/reducers/rootReducer';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import { EditAppointment, CreateAppointment, RemoveAppointment, GetAppointmentsByTopic } from "../../redux/actions/appointntment/index";
+import {
+  EditAppointment,
+  CreateAppointment,
+  RemoveAppointment,
+  GetAppointmentsByTopic,
+} from '../../redux/actions/appointntment/index';
 
 import './index.css';
 
@@ -16,6 +28,13 @@ interface Props {
   topic: Topic;
 }
 
+interface State {
+  title: string;
+  description: string;
+  appointment: Record | null;
+  appointments: Array<Record>;
+}
+
 interface ContentState {
   content: ContentItem | null;
   selectedTopic: Topic | null;
@@ -23,18 +42,16 @@ interface ContentState {
 
 const AddContent: FC<Props> = ({ content, onClose, topic }) => {
   const dispatch = useDispatch();
-  const [state, setState] = useState({
+  const [state, setState] = useState<State>({
     title: '',
     description: '',
-    appointment: '',
+    appointment: null,
+    appointments: [],
   });
 
   const [editAppointment, setEditAppointment] = useState(true);
 
   const topics = useSelector((state: AppState) => state.content.topics);
-  const appointments = useSelector(
-    (state: AppState) => state.appointment.appointments,
-  );
 
   const [editedContent, setContent] = useState<ContentState>({
     content: null,
@@ -53,32 +70,50 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
 
   useEffect(() => {
     if (content) {
-      setContent({ ...editedContent, content: content, selectedTopic: topic, });
-      setState({...content, appointment: appointments[0].title});
+      setContent({ ...editedContent, content: content, selectedTopic: topic });
     } else {
       setContent({ ...editedContent, selectedTopic: topic });
-      setState({...state, appointment: appointments[0].title})
     }
+    getAppointments();
   }, [content]);
 
   const handleSelect = (topic: Topic) => {
     setContent({ ...editedContent, selectedTopic: topic });
   };
 
-  const addAppointment = async() => {
-    let result = false
+  const getAppointments = async () => {
+    const result: any = await dispatch(GetAppointmentsByTopic(topic._id));
+    if (content) {
+      const index = result.findIndex((x: any) => x._id === content.appointment);
+      if (index !== -1) {
+        result.splice(0, 0, result.splice(index, 1)[0]);
+      }
+    }
+    setState({
+      ...state,
+      appointments: result,
+      appointment: result[0],
+      title: content ? content.title : '',
+      description: content ? content.description : '',
+    });
+  };
+
+  const addAppointment = async () => {
+    let result = false;
     if (editAppointment) {
-     result = await dispatch(EditAppointment()) as any
+      result = (await dispatch(EditAppointment())) as any;
     } else {
-     result = await dispatch(CreateAppointment(state.appointment, topic._id)) as any
+      result = (await dispatch(
+        CreateAppointment(state.appointment, topic._id),
+      )) as any;
     }
     if (result) {
-      await dispatch(GetAppointmentsByTopic(topic._id))
+      await getAppointments();
     }
-  }
+  };
 
   const onSubmit = async () => {
-    const newContent = { ...state, topic: topic._id };
+    const newContent = { ...state, topic: topic._id, appointment: state.appointment._id };
     if (!content) {
       const createdContent: any = await dispatch(CreateContent(newContent));
       if (createdContent) {
@@ -91,6 +126,22 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
       if (result) {
         onClose();
       }
+    }
+  };
+
+  const handleAppointment = (event: ChangeEvent<HTMLSelectElement>) => {
+    const currentAppointment = state.appointments.find(
+      (item) => item._id === event.target.value,
+    );
+    setState({ ...state, appointment: currentAppointment });
+  };
+
+  const removeAppointment = async () => {
+    const result: any = await dispatch(
+      RemoveAppointment(state.appointment._id),
+    );
+    if (result) {
+      await getAppointments()
     }
   };
 
@@ -115,32 +166,25 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
             <div>Appointment</div>
             <div>
               <div className="appointment-item">
-                <select name="select">
-                  {/* <option value="value1">Значение 1</option>
-                  <option value="value2" selected>
-                    Значение 2
-                  </option>
-                  <option value="value3">Значение 3</option> */}
-                  {appointments.map((item) => {
+                <select name="select" onChange={handleAppointment}>
+                  {state.appointments.map((item) => {
                     return (
-                      <option value={item._id} selected>
+                      <option value={item._id} >
                         {item.title}
                       </option>
                     );
                   })}
                 </select>
-                {/* <div> */}
                 <HighlightOffIcon
                   className="remove-image-icon"
-                  // onClick={() => openRemove(item)}
+                  onClick={removeAppointment}
                 />
-                {/* </div> */}
               </div>
 
               <div className="appointment-item">
                 <input
                   className="appointment-input"
-                  defaultValue={state.appointment}
+                  value={state.appointment ? state.appointment.title : ''}
                   name="appointment"
                   onChange={handleChange}
                 />
@@ -154,8 +198,9 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
               </div>
 
               <div className="appointment-item">
-                {editAppointment}
-                <button onClick={addAppointment}>{editAppointment ? 'Edit ' : 'Add '}appointment</button>
+                <button onClick={addAppointment}>
+                  {editAppointment ? 'Edit ' : 'Add '}appointment
+                </button>
               </div>
             </div>
           </div>

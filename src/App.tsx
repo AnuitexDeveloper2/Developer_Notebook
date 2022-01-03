@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import Home from "./Pages/home/Home";
-import Content from "./Pages/content";
+import Content from "./Pages/adminContent";
 import Header from "./components/header/index";
 import { configureStore } from "./redux/store";
 import { Provider } from "react-redux";

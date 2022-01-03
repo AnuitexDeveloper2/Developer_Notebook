@@ -5,18 +5,14 @@ import { CreateAppointmentAction, DeleteAppointmentAction, EditAppointmentAction
 
 
 export const GetAppointmentsByTopic: ActionCreator<ThunkAction<Promise<void>, any, null, GetAppointmentsAction>> = (topicId: string) => {
-    return async (dispatch: Dispatch) => {
+    return async () => {
         const config = {
             method: 'GET',
             path: `appointment/${topicId}`,
         }
 
         const result = await http(config)
-        const action: GetAppointmentsAction = {
-            type: "GET_APPOINTMENTS",
-            result: result.parsedBody
-        }
-        dispatch(action)
+        return result.parsedBody as any
     }
 }
 
@@ -39,12 +35,12 @@ export const CreateAppointment: ActionCreator<ThunkAction<Promise<boolean>, any,
     }
 }
 
-export const EditAppointment: ActionCreator<ThunkAction<Promise<boolean>, any, null, EditAppointmentAction>> = (title: string,id: string) => {
+export const EditAppointment: ActionCreator<ThunkAction<Promise<boolean>, any, null, EditAppointmentAction>> = (title: string, id: string) => {
     return async (dispatch: Dispatch) => {
         const config = {
             method: 'PUT',
             path: `appointment/${id}`,
-            body: {title: title}
+            body: { title: title }
         }
 
         const result = await http(config)
@@ -52,12 +48,11 @@ export const EditAppointment: ActionCreator<ThunkAction<Promise<boolean>, any, n
     }
 }
 
-export const RemoveAppointment:  ActionCreator<ThunkAction<Promise<boolean>, any, null, DeleteAppointmentAction>> = (id: string) => {
+export const RemoveAppointment: ActionCreator<ThunkAction<Promise<boolean>, any, null, DeleteAppointmentAction>> = (id: string) => {
     return async (dispatch: Dispatch) => {
         const config = {
             method: 'Delete',
             path: `appointment/${id}`,
-            body: {}
         }
 
         const result = await http(config)

@@ -123,8 +123,9 @@ const Content = () => {
     });
   };
 
-  const openAddTopic = (event: React.MouseEvent<HTMLElement>) => {
-    setState({ ...state, [(event.currentTarget as any).name]: true });
+  const openAddTopic = async(event: React.MouseEvent<HTMLElement>) => {
+    const nameEvent = (event.currentTarget as any).name
+    setState({ ...state, [nameEvent]: true });
   };
 
   const closeCreateTopicModal = () => {
@@ -158,7 +159,6 @@ const Content = () => {
 
   const editContent = async (contentItem: ContentItem) => {
     setState({ ...state, selectedContent: contentItem, addContentModal: true });
-    getAppointments(contentItem.topic)
     const content = (await dispatch(EditContent(contentItem))) as any;
   };
 
@@ -172,9 +172,6 @@ const Content = () => {
     onOpen();
   };
 
-  const getAppointments = async(topicId: string) => {
-    dispatch(GetAppointmentsByTopic(topicId))
-  }
   return (
     <Card className="content-card">
       <Card className="topic-container-admin">
@@ -244,7 +241,7 @@ const Content = () => {
                 <TableRow key={i}>
                   <TableCell>{item.title}</TableCell>
                   <TableCell>{item.description}</TableCell>
-                  <TableCell>{item.appointment}</TableCell>
+                  <TableCell>{item.appointment ? item.appointment.title: ''}</TableCell>
                   <TableCell>
                     <div className="content-actions">
                       <div>

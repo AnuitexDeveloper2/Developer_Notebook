@@ -5,7 +5,7 @@ export interface Topic extends Record {
 }
 
 export interface ContentItem extends Record {
-    appointment: string;
+    appointment: Record;
     description: string;
     topic: string;
 }
