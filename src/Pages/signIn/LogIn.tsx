@@ -47,7 +47,7 @@ const LogIn: FC<Props> = (props) => {
   const handleSubmit = async() => {
     const error: any = await dispatch(SignInAction(state))
     if (error) {
-      setError(error)
+      setError(error.toString())
       return
     }
     props.closeModal()

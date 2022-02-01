@@ -16,6 +16,7 @@ export const SignInAction: ActionCreator<
                     body: data
                 }
                 try {
+                    
                     const result = await http(config) as any
                     if (result.parsedBody.error) {
                         return result.parsedBody.error
@@ -26,6 +27,8 @@ export const SignInAction: ActionCreator<
                     }
                     dispatch(LoginAction)
                 } catch (error) {
+                    console.log(error);
+                    
                     return error
                 }
             }
