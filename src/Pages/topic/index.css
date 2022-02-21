@@ -1,12 +1,12 @@
 /* @import url("https://fonts.googleapis.com/css?family=Open+Sans"); */
 
 .topic-page-wrapper {
-    margin-top: 60px;
+    padding-top: 53px;
+    display: flex;
 }
 
 .sidebar {
   width: 25%;
-  height: 100vh;
   background: #312450;
   font-size: 0.65em;
 }
@@ -58,35 +58,13 @@
   background-image: linear-gradient(to right, #5e42a6, #b74e91);
 }
 
-/* .twitter {
-  position: relative;
-  width: 75%;
-  float: right;
-  height: 100vh;
+.twitter {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  } */
-
-/* a {
-    position: relative;
-
-    img {
-      width: 48px;
-      height: 48px;
-    }
-  }
-
-  p {
-    text-transform: uppercase;
-    font-size: 1em;
-    letter-spacing: 0.1em;
-    color: #fff;
-    font-weight: bold;
-    margin-top: 20px;
-  }
-} */
+.content-item {
+  padding: 20px;
+  margin: 10p;
+}

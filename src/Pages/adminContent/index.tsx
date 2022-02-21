@@ -111,6 +111,7 @@ const Content = () => {
   const getContent = async (topic: Topic) => {
     const result = (await dispatch(GetContent(topic._id))) as any;
     dispatch(GetTopics());
+    
     setState({
       ...state,
       content: result.data,
@@ -240,7 +241,7 @@ const Content = () => {
               return (
                 <TableRow key={i}>
                   <TableCell>{item.title}</TableCell>
-                  <TableCell>{item.description}</TableCell>
+                  <TableCell className="admin-content-description">{item.description}</TableCell>
                   <TableCell>{item.appointment ? item.appointment.title: ''}</TableCell>
                   <TableCell>
                     <div className="content-actions">

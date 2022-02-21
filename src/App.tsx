@@ -16,11 +16,11 @@ const store = configureStore()
 const modalManager: HeaderState = {
   openLogin:false,
   openRegister:false,
+  openError: ""
 }
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
         <Header modalManager={modalManager}/>
         <BrowserRouter>
           <Route exact path="/" component={Home} />
@@ -29,7 +29,6 @@ function App() {
           <Route exact path="/content" component={Content} />
           </AdminRoute>
         </BrowserRouter>
-      </div>
     </Provider>
   );
 }

@@ -1,6 +1,6 @@
 import { ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { CloseLogin, CloseRegister, OpenLogIn, OpenRegister } from "./types";
+import { CloseError, CloseLogin, CloseRegister, OpenError, OpenLogIn, OpenRegister } from "./types";
 
 export const OpenSignInAction: ActionCreator<ThunkAction<void,null,null,OpenLogIn>> = () => {
     return (dispatch: Dispatch) => {
@@ -36,6 +36,25 @@ export const CloseRegisterAction: ActionCreator<ThunkAction<void,null,null,OpenR
             type: "CloseRegister"
         };
         dispatch(close)
+    }
+}
+
+export const OpenErrorAction: ActionCreator<ThunkAction<void,null,null,OpenError>> = (error:string) => {
+    return (dispatch: Dispatch) => {
+        const open: OpenError = {
+            type: "OpenError",
+            error
+        };
+        dispatch(open)
+    }
+}
+
+export const CloseErrorAction: ActionCreator<ThunkAction<void,null,null,CloseError>> = () => {
+    return (dispatch: Dispatch) => {
+        const open: CloseError = {
+            type: "CloseError"
+        };
+        dispatch(open)
     }
 }
 

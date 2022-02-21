@@ -2,6 +2,29 @@
   text-align: center;
 }
 
+html, body, #root {
+  height: 100%;
+}
+
+#wrapper {
+  height:100%;
+  width:300px;
+  background-color:#9ACD32;
+}
+#first {
+  background-color:#F5DEB3;
+  height: 200px;
+}
+
+
+/* Following just for demo */
+
+html, body{
+  height:100%;
+  margin: 0;
+  padding: 0;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

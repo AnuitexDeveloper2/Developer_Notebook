@@ -715,3 +715,10 @@ input[type='radio'] {
     width: 80px ;
   }
 }
+
+/* .admin-content-description {
+  max-height: 100px;
+  overflow: hidden !important;
+  display: block !important;
+  text-overflow: ellipsis !important;
+} */

@@ -6,30 +6,21 @@ import { UserState } from '../../../redux/reducers/userReducer';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 
 interface Props {
-    user: UserState
+  user: UserState;
 }
 
 const AdminRoute: FC<Props> = ({ children, user }) => {
-
-    if (user.role === "Admin") {
-        return (
-            <React.Fragment>
-                {children}
-            </React.Fragment>
-        )
-    } else {
-
-        return (
-            <Redirect to={{ pathname: "/" }} />
-        )
-    }
-}
+  if (user && user.role === 'Admin') {
+    return <React.Fragment>{children}</React.Fragment>;
+  } else {
+    return <Redirect to={{ pathname: '/' }} />;
+  }
+};
 
 const mapStateToProps = (state: AppState) => {
-    return {
-        user: state.auth.user
-    }
-}
+  return {
+    user: state.auth.user,
+  };
+};
 
-
-export default connect(mapStateToProps, null)(AdminRoute)
+export default connect(mapStateToProps, null)(AdminRoute);

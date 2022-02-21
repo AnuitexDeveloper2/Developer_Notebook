@@ -2,6 +2,7 @@ import { ActionCreator, Dispatch } from "redux"
 import { ThunkAction } from "redux-thunk"
 import { http } from "../../../helper/request"
 import { Record, Topic } from "../../../types/content"
+import { OpenError } from "../header/types"
 import * as types from "./types"
 
 export const GetTopics: ActionCreator<
@@ -52,7 +53,14 @@ export const GetTopic: ActionCreator<
                     body: data
                 }
 
-                const result = await http(config)
+                const result = await http(config) as any
+                const ErrorAction: OpenError = {
+                    type: 'OpenError',
+                    error: result.parsedBody.error
+                  };
+                  if (result.parsedBody.error) {
+                      return dispatch(ErrorAction)
+                  }
                 return result.parsedBody as any
             }
         }

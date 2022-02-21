@@ -1,0 +1,22 @@
+.error-wrapper {
+  position: absolute;
+  top: 30px;
+  background-color: rgb(223, 82, 82);
+  margin: 20px;
+  color: azure;
+  z-index: 99999999999;
+  border-radius: 10px;
+}
+
+.error-close {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.error-content {
+  text-align: center;
+  padding: 20px;
+}
