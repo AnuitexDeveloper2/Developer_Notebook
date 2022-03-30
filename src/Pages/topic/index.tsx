@@ -31,7 +31,6 @@ const TopicPage: FC = () => {
       const content: any = await dispatch(
         getContentByAppointment(result[0]._id, topicId),
       );
-      debugger;
       setState({ ...state, appointments: result, content: content });
     }
   };
@@ -43,7 +42,7 @@ const TopicPage: FC = () => {
           <ul>
             {state.appointments.map((item: Record) => {
               return (
-                <li key={item._id} className="active">
+                <li key={item._id} className="list active">
                   <a className="topic-theme">{item.title}</a>
                 </li>
               );
@@ -54,7 +53,7 @@ const TopicPage: FC = () => {
 
       <section className="twitter">
         {state.content.map((item) => {
-          return <div className='content-item'>{item.title}</div>;
+          return <div key={item._id} className='content-item'>{item.title}</div>;
         })}
       </section>
     </main>

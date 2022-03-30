@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import './index.css';
-import TwitterLogin from 'react-twitter-auth';
 import { Topic } from '../../types/enums';
 import JS from '../../assets/images/topics/JS.png';
 import { useDispatch, useSelector } from 'react-redux';

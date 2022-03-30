@@ -38,7 +38,16 @@ export const CreateContent: ActionCreator<
       body: data,
     };
 
-    const result = await http(config);
+    const result = (await http(config)) as any;
+
+    if (result.parsedBody.error) {
+      const ErrorAction: OpenError = {
+        type: 'OpenError',
+        error: result.parsedBody.error,
+      };
+      return dispatch(ErrorAction);
+    }
+
     return result.parsedBody as any;
   };
 };
@@ -52,7 +61,16 @@ export const RemoveContent: ActionCreator<
       path: `contents/admin/${id}`,
     };
 
-    const result = await http(config);
+    const result = (await http(config)) as any;
+
+    if (result.parsedBody.error) {
+      const ErrorAction: OpenError = {
+        type: 'OpenError',
+        error: result.parsedBody.error,
+      };
+      return dispatch(ErrorAction);
+    }
+
     return result.parsedBody as any;
   };
 };
@@ -67,7 +85,15 @@ export const EditContent: ActionCreator<
       body: data,
     };
 
-    const result = await http(config);
+    const result = (await http(config)) as any;
+
+    if (result.parsedBody.error) {
+      const ErrorAction: OpenError = {
+        type: 'OpenError',
+        error: result.parsedBody.error,
+      };
+      return dispatch(ErrorAction);
+    }
     return result.parsedBody as any;
   };
 };
@@ -76,12 +102,20 @@ export const getContentByAppointment: ActionCreator<
   ThunkAction<Promise<Record>, any, null, types.CreateContentAction>
 > = (appointmentId: string, topic: string, pageNumber: number = 1) => {
   return async (dispatch: Dispatch) => {
-    debugger
     const config = {
       method: 'GET',
       path: `contents/user/${topic}/${appointmentId}/${pageNumber}`,
     };
-    const result = await http(config);
+    const result = (await http(config)) as any;
+
+    if (result.parsedBody.error) {
+      const ErrorAction: OpenError = {
+        type: 'OpenError',
+        error: result.parsedBody.error,
+      };
+      return dispatch(ErrorAction);
+    }
+
     return result.parsedBody as any;
   };
 };

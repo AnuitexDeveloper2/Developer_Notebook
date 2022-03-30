@@ -17,7 +17,7 @@ interface Props {
     logOut: () => void
     openLogIn: () => void
     modalManager: HeaderState
-    user: UserState
+    user: UserState | undefined
 }
 
 const Header: FC<Props> = (props) => {
@@ -49,7 +49,7 @@ const Header: FC<Props> = (props) => {
 
                 <img src={user} onClick={showDropdownMenu} className="user-icon" alt="" />
                 {state.showMenu ? (
-                    <HeaderMenu handleSelect={handleSelect} role={props.user.role} logOut={props.logOut} />
+                    <HeaderMenu handleSelect={handleSelect} role={props.user?.role} logOut={props.logOut} />
                 ) :
                     (
                         null

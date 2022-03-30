@@ -45,12 +45,15 @@ const LogIn: FC<Props> = (props) => {
     setError('')
   };
   const handleSubmit = async() => {
-    const error: any = await dispatch(SignInAction(state))
-    if (error) {
-      setError(error.toString())
+    const result: any = await dispatch(SignInAction(state))
+    debugger
+    if (result.error) {
+      setError(result.error.toString())
       return
     }
     props.closeModal()
+    localStorage.setItem("access", result.AccessToken)
+    localStorage.setItem("refresh", result.RefreshToken)
   };
   return (
     <Modal isOpen={true} ariaHideApp={false} >

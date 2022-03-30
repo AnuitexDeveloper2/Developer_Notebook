@@ -16,19 +16,16 @@ export const SignInAction: ActionCreator<
                     body: data
                 }
                 try {
-                    
                     const result = await http(config) as any
-                    if (result.parsedBody.error) {
-                        return result.parsedBody.error
-                    }
                     const LoginAction: AuthActions = {
                         type: 'LOGIN',
                         result: result.parsedBody
                     }
                     dispatch(LoginAction)
+                    if (result.parsedBody) {
+                        return result.parsedBody
+                    }
                 } catch (error) {
-                    console.log(error);
-                    
                     return error
                 }
             }
