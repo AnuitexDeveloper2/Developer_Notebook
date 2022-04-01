@@ -46,7 +46,6 @@ const LogIn: FC<Props> = (props) => {
   };
   const handleSubmit = async() => {
     const result: any = await dispatch(SignInAction(state))
-    debugger
     if (result.error) {
       setError(result.error.toString())
       return

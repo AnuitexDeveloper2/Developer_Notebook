@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { GetAppointmentsByTopic } from '../../redux/actions/appointntment';
 import { getContentByAppointment } from '../../redux/actions/content';
-import { Record } from '../../types/content';
+import { Record, ContentItem } from '../../types/content';
 
 import './index.css';
 
@@ -14,7 +14,7 @@ const TopicPage: FC = () => {
 
   const [state, setState] = useState({
     appointments: Array<Record>(),
-    content: Array<Record>(),
+    content: Array<ContentItem>(),
   });
 
   useEffect(() => {
@@ -53,7 +53,15 @@ const TopicPage: FC = () => {
 
       <section className="twitter">
         {state.content.map((item) => {
-          return <div key={item._id} className='content-item'>{item.title}</div>;
+          return (
+            <div key={item._id} className="content-item">
+              {' '}
+              <div className="content-title">
+                <strong> {item.title} </strong>
+              </div>
+              <div className='content-description'>{item.description}</div>
+            </div>
+          );
         })}
       </section>
     </main>
