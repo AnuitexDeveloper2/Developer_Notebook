@@ -8,21 +8,33 @@ import { Record, ContentItem } from '../../types/content';
 
 import './index.css';
 
+interface State {
+  appointments: Array<Record>;
+  content: Array<ContentItem>;
+  activeAppointment: Record;
+}
+
 const TopicPage: FC = () => {
   const dispatch = useDispatch();
   const params: any = useParams();
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<State>({
     appointments: Array<Record>(),
     content: Array<ContentItem>(),
+    activeAppointment: undefined,
   });
 
   useEffect(() => {
     getAppointments(params.id);
   }, []);
 
-  const getContentByTopic = async () => {
-    dispatch(getContentByAppointment());
+  const getContentByActiveAppointment = async (appointment: Record) => {
+    const content: any = await dispatch(getContentByAppointment(appointment._id, params.id));
+    setState({
+      ...state,
+      content: content,
+      activeAppointment: appointment,
+    });
   };
 
   const getAppointments = async (topicId: string) => {
@@ -31,7 +43,12 @@ const TopicPage: FC = () => {
       const content: any = await dispatch(
         getContentByAppointment(result[0]._id, topicId),
       );
-      setState({ ...state, appointments: result, content: content });
+      setState({
+        ...state,
+        appointments: result,
+        content: content,
+        activeAppointment: result[0],
+      });
     }
   };
 
@@ -42,7 +59,13 @@ const TopicPage: FC = () => {
           <ul>
             {state.appointments.map((item: Record) => {
               return (
-                <li key={item._id} className="list active">
+                <li
+                  key={item._id}
+                  onClick={()=> {getContentByActiveAppointment(item)}}
+                  className={`list ${
+                    item._id === state.activeAppointment._id ? 'active' : ''
+                  }`}
+                >
                   <a className="topic-theme">{item.title}</a>
                 </li>
               );
@@ -59,7 +82,7 @@ const TopicPage: FC = () => {
               <div className="content-title">
                 <strong> {item.title} </strong>
               </div>
-              <div className='content-description'>{item.description}</div>
+              <div className="content-description">{item.description}</div>
             </div>
           );
         })}

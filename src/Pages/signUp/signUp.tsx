@@ -1,36 +1,44 @@
-import { Box, Button, TextField } from '@material-ui/core';
-import { Form, Formik, Field } from 'formik';
+import { Box } from '@material-ui/core';
+import { Form, Formik } from 'formik';
 import React, { FC, useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 
 import close from '../../assets/zondicons/close.svg';
 import MyTextInput from '../../components/common/myInputs/myTextInput';
-import { useModalState } from '../../components/hooks/modal';
 import { registerObject } from '../../helper/yupValidationSchemas';
 import { RegisterAction } from '../../redux/actions/auth/authActions';
 import { CloseRegisterAction } from '../../redux/actions/header/headerActions';
 import { RegisterForm } from '../../types/auth';
-import './index.css';
+import './index.scss';
 
 const Register: FC = () => {
   const dispatch = useDispatch();
+
   const [state, setState] = useState({
     confirmPassword: '',
     isPasswordMatchError: false,
     isSuccess: false,
+    error: ''
   });
 
   const closeModal = () => {
     dispatch(CloseRegisterAction());
   };
 
-  const handleSubmit = (values: RegisterForm) => {
+  const handleSubmit = async(values: RegisterForm) => {
     if (values.password !== state.confirmPassword) {
       setState({ ...state, isPasswordMatchError: true });
+      return;
+    }
+    const result = await dispatch(RegisterAction(values)) as any;
+    if (result.error) {
+      setState({...state, error: result.error})
       return
     }
-    dispatch(RegisterAction(values))
+    setState({...state, error: ''})
+    localStorage.setItem('access', result.AccessToken);
+    localStorage.setItem('refresh', result.RefreshToken);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,34 +71,45 @@ const Register: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={registerObject}
         >
-          <Box display="flex" justifyContent="center" marginTop="5em">
-            <Form>
-              <MyTextInput label="First Name" name="firstName" />
-              <MyTextInput label="Last Name" name="lastName" />
-              <MyTextInput label="Email" name="email" />
-              <MyTextInput label="Password" name="password" />
-              <TextField
-                onChange={handleChange}
-                className="base-input"
-                label="Confirm Password"
-                name="confirmPassword"
-              />
-              {state.isPasswordMatchError && <div className="error">Password did not match</div>}
-              <Box display="flex" justifyContent="center" marginTop="1em">
-                <div className="button-container-1">
-                  <span className="mas">Register</span>
-                  <button
-                    id="work"
-                    type="submit"
-                    name="Hover"
-                    onClick={() => handleSubmit}
-                  >
-                    Register
-                  </button>
+          {(formik: any) => (
+            <Box display="flex" justifyContent="center" marginTop="3em" marginBottom="2em">
+              <Form>
+                <MyTextInput label="First Name" name="firstName" />
+                <MyTextInput label="Last Name" name="lastName" />
+                <MyTextInput label="Email" name="email" />
+                <div className='sign-up-group'>
+                  <MyTextInput label="Password" name="password" />
+                  <div className="form-group">
+                    <label htmlFor="confirm" className="base-label">
+                      Confirm Password
+                    </label>
+                    <input
+                      className="base-input"
+                      onChange={handleChange}
+                      name="confirm"
+                    />
+                    {state.isPasswordMatchError && (
+                      <div className="error">Password did not match</div>
+                    )}
+                  </div>
                 </div>
-              </Box>
-            </Form>
-          </Box>
+                <Box display="flex" justifyContent="center" marginTop="">
+                  <div className="button-container-1">
+                    <span className="mas">Register</span>
+                    <button
+                      id="work"
+                      type="submit"
+                      name="Hover"
+                      disabled={!(formik.isValid && formik.dirty)}
+                    >
+                      Register
+                    </button>
+                  </div>
+                    <div className='error'>{state.error}</div>
+                </Box>
+              </Form>
+            </Box>
+          )}
         </Formik>
       </Modal>
     </>

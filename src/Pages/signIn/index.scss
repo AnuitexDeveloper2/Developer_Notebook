@@ -20,20 +20,25 @@
 
 .ReactModal__Content {
   background: rgb(231, 231, 231) !important;
-  margin: 10%;
+  margin: 5% 20%;
+  @media screen and (max-width: 900px ) {
+    margin: 0;
+  }
 }
 
-.email-field {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.form-group {
+  display: block;
+  label {
+    display: block;
+  }
+  input: {
+    outline: none;
+    border: none;
+    appearance: none;
+    background: none;
+  }
 }
 
-.password-field {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 /* Log In Button*/
 
@@ -72,6 +77,10 @@
   cursor: pointer;
   -webkit-animation: ani2 0.7s steps(22) forwards;
   animation: ani2 0.7s steps(22) forwards;
+  &:disabled {
+    background: transparent;
+    color: rgb(127, 120, 120);
+  }
 }
 .button-container-1 button:hover {
   -webkit-animation: ani 0.7s steps(22) forwards;

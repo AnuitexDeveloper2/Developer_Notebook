@@ -32,7 +32,7 @@ export const SignInAction: ActionCreator<
         }
 
 export const RegisterAction: ActionCreator<
-    ThunkAction<Promise<void>,
+    ThunkAction<Promise<unknown>,
         any,
         null,
         AuthActions>> = (data) => {
@@ -42,6 +42,7 @@ export const RegisterAction: ActionCreator<
                     path: 'auth/register',
                     body: data
                 }
+                debugger
                 const result = await http(config)
 
                 const RegisterAction: AuthActions = {
@@ -49,6 +50,9 @@ export const RegisterAction: ActionCreator<
                     result: result.parsedBody
                 }
                 dispatch(RegisterAction)
+                if (result.parsedBody) {
+                    return result.parsedBody
+                }
             }
         }
 

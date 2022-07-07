@@ -10,6 +10,7 @@ interface Props {
 }
 
 const AdminRoute: FC<Props> = ({ children, user }) => {
+  debugger
   if (user && user.role === 'Admin') {
     return <React.Fragment>{children}</React.Fragment>;
   } else {

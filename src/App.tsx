@@ -25,9 +25,9 @@ function App() {
         <BrowserRouter>
           <Route exact path="/" component={Home} />
           <Route exact path='/topic/:id' component={TopicPage}/>
-          <AdminRoute>
+          {/* <AdminRoute> */}
           <Route exact path="/content" component={Content} />
-          </AdminRoute>
+          {/* </AdminRoute> */}
         </BrowserRouter>
     </Provider>
   );

@@ -1,8 +1,8 @@
 /* @import url("https://fonts.googleapis.com/css?family=Open+Sans"); */
 
 .topic-page-wrapper {
-    padding-top: 53px;
-    display: flex;
+  padding-top: 53px;
+  display: flex;
 }
 
 .sidebar {
@@ -46,11 +46,19 @@
 }
 
 .topic-theme:not(.active):hover .topic-theme {
-  color: rgba(#fff, 0.75);
+  color: #655982;
 }
 
 .list {
   cursor: pointer;
+}
+
+.list:hover {
+  background-color: #695694 !important;
+}
+
+.list.active {
+  background-color: #e5e5e5 !important  ;
 }
 
 .topic-theme::after {
@@ -72,11 +80,31 @@
 
 .content-item {
   padding: 20px;
-  margin: 10p;
+  margin: 10px;
   width: 20%;
   height: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.content-item:hover .content-description {
+  text-overflow: unset;
+  overflow: visible;
+  -webkit-line-clamp:unset;
+  height: fit-content;
+  background-color: #695694;
+  position: absolute;
+  color: white;
+  max-height: unset;
+  padding: 10px;
+  font-size: 18px;
+  width: fit-content;
+  border-radius: 10px;
+}
+
+.content-item:hover {
+  overflow: visible;
+  position: relative;
 }
 
 .content-title {

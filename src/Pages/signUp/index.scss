@@ -1,0 +1,13 @@
+.ReactModal__Content {
+    margin: 5%;
+}
+
+.sign-up-group {
+    display: flex;
+    gap: 3px;
+    @media screen and (max-width: 560px) {
+        display: block;
+    }
+}
+
+/* Submit button*/
