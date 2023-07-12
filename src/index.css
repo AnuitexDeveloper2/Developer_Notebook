@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.base-input > div > input:focus-within {
+  background: white;
+  border-radius: 5%;
+  border: 1px solid #3f51b5 !important;}
+
+.MuiInput-underline:after {
+  border: none !important
+}
+
+.MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom: 1px solid black !important;
+}
+
+.error {
+  color: rgb(233, 87, 87);
+  font-size: 12px;
+}

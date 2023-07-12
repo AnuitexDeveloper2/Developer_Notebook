@@ -1,0 +1,16 @@
+export enum AlertMessages {
+    TEMPLATE_CREATED = 'The project set as template',
+    PROJECT_COPIED = 'The project has been copied',
+    PROJECT_DELETED = 'The project has been deleted',
+    COPY_LINK = 'Link was copied',
+    REMOVE_ACCESS = 'Access was removed',
+    UPDATE_USER = 'User updated',
+    CHANGE_PASSWORD = 'Password was changed',
+    CONFIRM_EMAIL = 'Email was confirmed',
+    CORRUPTED_LINK = 'Confirmation link was corrupted or expired',
+    RESEND_INVITATION = 'Invitation was resented',
+    RESET_PASSWORD = 'Password was reset',
+    PROJECT_UPDATED = 'The project was successfully updated',
+    ORGANIZATION_UPDATED = 'Organization was updated',
+    SENT_CONFIRMATION_LINK = 'Confirmation link was sent to your email',
+}
