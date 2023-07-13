@@ -5,6 +5,7 @@ import { http } from "../../../helper/request"
 import { ActionResponse } from "../../../models/response/types"
 import { Record, Topic } from "../../../types/content"
 import * as types from "./types"
+import { EditContentRequest } from "./types"
 
 
 export const getContentAction = createAsyncThunk<ActionResponse<any> | undefined, string>(
@@ -54,10 +55,10 @@ export const removeContentAction = createAsyncThunk<string | undefined, string>(
     },
 );
 
-export const editContentAction = createAsyncThunk<string | undefined, any>(
+export const editContentAction = createAsyncThunk<string | undefined, EditContentRequest>(
     'content/editContent',
-    async (data: any) => {
-        const result = await http<string | undefined, undefined>(
+    async (data: EditContentRequest) => {
+        const result = await http<string | undefined, EditContentRequest>(
             {
                 method: 'PUT',
                 path: `contents/admin/${data.id}`,

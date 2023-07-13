@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "../../../helper/request";
+import { CreateAppointmentRequest } from "./types";
 
 export const getAppointmentsByTopicAction = createAsyncThunk<string | undefined, string>(
     'appointment/getContent',
@@ -23,10 +24,10 @@ export const getAppointmentsByTopicAction = createAsyncThunk<string | undefined,
  * @returns
  */
 
-export const createAppointmentAction = createAsyncThunk<string | undefined, any>(
+export const createAppointmentAction = createAsyncThunk<string | undefined, CreateAppointmentRequest>(
     'createAppointment/getContent',
-    async (data: any) => {
-        const result = await http<string | undefined, any>(
+    async (data: CreateAppointmentRequest) => {
+        const result = await http<string | undefined, CreateAppointmentRequest>(
             {
                 method: 'POST',
                 path: 'appointment',

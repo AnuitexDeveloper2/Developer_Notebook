@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   TableContainer,
@@ -10,7 +9,6 @@ import {
   TableCell,
   Dialog,
   DialogContent,
-  DialogTitle,
   TableBody,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -22,28 +20,22 @@ import {
   removeTopicAction,
 } from "../../redux/actions/topic";
 import TopicItem from "./topicItem";
-import AddTopic from "./addTopic";
 import { ContentItem, Topic } from "../../types/content";
-import AddContent from "./addContent";
 import {
-  editContentAction,
   getContentAction,
   removeContentAction,
 } from "../../redux/actions/content";
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 
 import "./index.css";
 import { useModalState } from "../../components/hooks/modal";
 import RemoveItem from "../../components/common/removeItem";
 import PaginationTable from "../../components/common/pagination";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useAppDispatch } from "../../redux/store";
 import { ActionResponse } from "../../models/response/types";
-import { AddContentDialog } from "./AdminContent.styles";
+import AddContentModal from "./addContentDiaalog/AddContentDialog";
+import AddTopicDialog from "./addTopicDialog/AddTopicDialog";
 interface State {
   content: Array<ContentItem>;
-  addTopicModal: boolean;
-  addContentModal: boolean;
   selectedTopic: Topic | null;
   selectedContent: ContentItem | null;
   actualTopic: Topic | null;
@@ -53,37 +45,27 @@ interface State {
 
 const Content = () => {
   const dispatch = useAppDispatch();
-  const { onOpen, onClose, isOpen } = useModalState();
+  const handleRemoveModal = useModalState();
+  const handleContentModal = useModalState();
+  const handleTopicModal = useModalState();
 
   const [state, setState] = useState<State>({
     total: 0,
     content: [],
-    addTopicModal: false,
-    addContentModal: false,
     selectedTopic: null,
     selectedContent: null,
     actualTopic: null,
     topics: Array<Topic>(),
   });
 
-  const [pagination, setPagination] = useState({
-    total: 0,
-    page: 1,
-    perPage: 10,
-  });
-
-  // const classes = useStyles();
-
   useEffect(() => {
     getData();
   }, []);
 
   const getData = async () => {
-    debugger;
     const { payload } = (await dispatch(getTopicsAction())) as ActionResponse<
       Array<Topic>
     >;
-    debugger;
     if (payload.data) {
       getContent(payload.data[0], payload.data);
     }
@@ -93,36 +75,33 @@ const Content = () => {
     if (!topic) {
       return;
     }
-    debugger;
     const { payload } = (await dispatch(getContentAction(topic._id))) as any;
-    debugger;
     setState({
       ...state,
       content: payload.data,
       total: payload.count,
       actualTopic: topic,
-      addTopicModal: false,
       selectedTopic: null,
-      addContentModal: false,
       selectedContent: null,
       topics: allTopics || state.topics || [],
     });
+    handleTopicModal.onClose();
   };
 
-  const openAddTopic = async (event: React.MouseEvent<HTMLElement>) => {
-    const nameEvent = (event.currentTarget as any).name;
-    setState({ ...state, [nameEvent]: true });
-  };
-
-  const closeCreateTopicModal = () => {
-    dispatch(getTopicsAction());
-    getContent(state.actualTopic);
+  const closeCreateTopicModal = (newTopic?: Topic) => {
+    const topics = [...state.topics];
+    if (newTopic) {
+      topics.push(newTopic);
+    }
+    handleTopicModal.onClose();
+    setState({ ...state, topics: topics });
   };
 
   const editTopic = async (topicId: string) => {
     const topic = (await dispatch(getTopicAction(topicId))) as any;
     if (topic) {
-      setState({ ...state, selectedTopic: topic, addTopicModal: true });
+      setState({ ...state, selectedTopic: topic });
+      handleTopicModal.onClose();
     }
   };
 
@@ -140,14 +119,14 @@ const Content = () => {
       )) as any;
       if (content) {
         getContent(state.topics[0]);
-        onClose();
+        handleRemoveModal.onClose();
       }
     }
   };
 
   const editContent = async (contentItem: ContentItem) => {
-    setState({ ...state, selectedContent: contentItem, addContentModal: true });
-    const content = (await dispatch(editContentAction(contentItem))) as any;
+    setState({ ...state, selectedContent: contentItem });
+    handleContentModal.onOpen();
   };
 
   const selectTopic = (topic: Topic) => {
@@ -157,7 +136,12 @@ const Content = () => {
 
   const openRemove = (contentItem: ContentItem) => {
     setState({ ...state, selectedContent: contentItem });
-    onOpen();
+    handleRemoveModal.onOpen();
+  };
+
+  const closeContentModal = () => {
+    getContent(state.actualTopic);
+    handleContentModal.onClose();
   };
 
   return (
@@ -182,7 +166,7 @@ const Content = () => {
           <button
             className="transparent-btn"
             name="addTopicModal"
-            onClick={openAddTopic}
+            onClick={handleContentModal.onOpen}
           >
             <AddCircleOutlineIcon />
           </button>
@@ -190,7 +174,7 @@ const Content = () => {
         <button
           className="add-topic"
           name="addTopicModal"
-          onClick={openAddTopic}
+          onClick={handleContentModal.onOpen}
         >
           Add Topic
         </button>
@@ -200,7 +184,7 @@ const Content = () => {
           <button
             className="transparent-btn"
             name="addContentModal"
-            onClick={openAddTopic}
+            onClick={handleContentModal.onOpen}
           >
             <AddCircleOutlineIcon />
           </button>
@@ -208,7 +192,7 @@ const Content = () => {
         <button
           className="add-content"
           name="addContentModal"
-          onClick={openAddTopic}
+          onClick={handleContentModal.onOpen}
         >
           Add Content
         </button>
@@ -256,52 +240,23 @@ const Content = () => {
         </Table>
         <PaginationTable total={state.total} title="Content" />
       </TableContainer>
-      <Dialog
-        fullWidth
-        open={state.addTopicModal}
-        onClose={closeCreateTopicModal}
-        id="add-tickets-dialog"
-      >
-        <DialogContent>
-          <AddTopic
-            topic={state.selectedTopic}
-            addAndClose={closeCreateTopicModal}
-          />
-        </DialogContent>
-      </Dialog>
 
-      <AddContentDialog
-        fullWidth={true}
-        fullScreen={true}
-        open={state.addContentModal}
-        onClose={closeCreateTopicModal}
-      >
-        <DialogTitle>
-          <IconButton
-            aria-label="close"
-            onClick={closeCreateTopicModal}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <AddContent
-            topic={state.actualTopic}
-            content={state.selectedContent}
-            onClose={closeCreateTopicModal}
-          />
-        </DialogContent>
-      </AddContentDialog>
-      <Dialog fullWidth open={isOpen} onClose={onClose}>
+      <AddTopicDialog
+        handleModal={handleTopicModal}
+        topic={state.selectedTopic}
+        closeCreateTopicModal={closeCreateTopicModal}
+      />
+
+      <AddContentModal
+        handleModal={handleContentModal}
+        closeContentModal={closeContentModal}
+        topic={state.selectedTopic}
+        content={state.selectedContent}
+      />
+      <Dialog fullWidth open={handleRemoveModal.isOpen} onClose={handleRemoveModal.onClose}>
         <DialogContent>
           <RemoveItem
-            closeModal={onClose}
+            closeModal={handleRemoveModal.onClose}
             removeUser={removeContent}
             minorText=""
             mainText="Content"

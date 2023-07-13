@@ -1,4 +1,5 @@
 import axios from "axios";
+import { alertService } from "../services";
 
 
 const agent = axios.create({
@@ -41,6 +42,9 @@ export const http = <RESB, REQB>(
                 return res.json();
             })
             .then((body) => {
+                if (body.error) {
+                    alertService.error(body.error, { fade: true, fixed: true })
+                }
                 if (response.ok) {
                     response.parsedBody = body;
                     resolve(response);

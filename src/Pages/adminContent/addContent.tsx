@@ -1,9 +1,4 @@
-import {
-  ChangeEvent,
-  FC,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import {
   createContentAction,
@@ -18,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { ActionResponse } from "../../models/response/types";
 import {
   createAppointmentAction,
+  editAppointmentAction,
   getAppointmentsByTopicAction,
   removeAppointmentAction,
 } from "../../redux/actions/appointntment";
@@ -86,9 +82,13 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
     if (!topic) {
       return;
     }
-    const { payload } = await dispatch(getAppointmentsByTopicAction(topic._id)) as any;
+    const { payload } = (await dispatch(
+      getAppointmentsByTopicAction(topic._id)
+    )) as any;
     if (content) {
-      const index = payload.findIndex((x: any) => x._id === content.appointment);
+      const index = payload.findIndex(
+        (x: any) => x._id === content.appointment
+      );
       if (index !== -1) {
         payload.splice(0, 0, payload.splice(index, 1)[0]);
       }
@@ -104,13 +104,19 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
 
   const addAppointment = async () => {
     let result: any;
+    if (!topic || !state.appointment) {
+      return;
+    }
     if (editAppointment) {
       result = (await dispatch(
-        editContentAction(state.appointment)
+        editAppointmentAction(state.appointment as any)
       )) as unknown as ActionResponse<any>;
     } else {
       const { payload } = (await dispatch(
-        createAppointmentAction({ ...state.appointment, topicId: topic?._id })
+        createAppointmentAction({
+          title: state.appointment.toString(),
+          topic: topic?._id,
+        })
       )) as unknown as ActionResponse<any>;
       result = payload;
     }
@@ -129,17 +135,21 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
       appointment: state.appointment?._id,
     };
     if (!content) {
-      const createdContent: any = await dispatch(
-        createContentAction(newContent)
-      );
-      if (createdContent) {
+      const { payload } = await dispatch(createContentAction(newContent));
+      if (payload) {
         onClose();
       }
     } else {
-      const result: any = await dispatch(
-        editContentAction({ ...newContent, _id: editedContent.content?._id })
-      );
-      if (result) {
+      const { payload } = (await dispatch(
+        editContentAction({
+          title: state.title,
+          description: state.description,
+          appointment: state.appointment?._id || "",
+          id: content._id,
+        })
+      )) as ActionResponse<ContentItem>;
+      debugger;
+      if (payload.data) {
         onClose();
       }
     }
@@ -187,8 +197,8 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
             <div>
               <div className="appointment-item">
                 <select name="select" onChange={handleAppointment}>
-                  {state.appointments.map((item) => {
-                    return <option value={item._id}>{item.title}</option>;
+                  {state.appointments.map((item, i) => {
+                    return <option value={i}>{item.title}</option>;
                   })}
                 </select>
                 <HighlightOffIcon
