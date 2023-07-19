@@ -2,12 +2,14 @@
     cursor: pointer;
     background-color: #bd5757 !important;
     opacity: 0.8;
+    color: white !important;
   }
   
   .user-cancel-button {
     cursor: pointer;
     background-color: rgb(0, 123, 255) !important;
     opacity: 0.8;
+    color: white !important;
   }
   
   .user-remove-button:hover {

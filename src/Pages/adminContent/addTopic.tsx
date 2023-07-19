@@ -56,24 +56,28 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
       const { payload } = (await dispatch(
         createTopicAction(newTopic)
       )) as ActionResponse<any>;
-      //   sendImage(createdTopic._id);
+      sendImage(payload.data._id);
       if (!payload.data) {
         return;
       }
-      result = payload.data
+      result = payload.data;
     } else {
       const editedTopic = { ...newTopic, img: state.image };
-      const result: any = await dispatch(
+      const { payload }: any = await dispatch(
         editTopicAction({ ...editedTopic, _id: state.id })
       );
+      if (payload) {
+        result = payload
+      }
       if (state.preview) {
-        sendImage(result._id);
+        sendImage(result?._id);
       }
     }
     addAndClose(result);
   };
 
   const sendImage = async (id: string) => {
+    debugger;
     let formData = new FormData();
     if (state.imagesArray.length > 0) {
       formData.append("image", state.imagesArray[0]);

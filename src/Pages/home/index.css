@@ -7,7 +7,7 @@
 .topic-container {
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
-  grid-template-rows: 70% 70% 70% 70%;
+  grid-template-rows: 70% 70% 70% 70% 70% 70% 70% 70%;
   justify-content: center;
 }
 
@@ -16,6 +16,8 @@
   display: flex;
   align-items: center;
   padding:  0 50px;
+  margin: 0px 10px;
+ 
 }
 
 .topic-item {
@@ -27,6 +29,8 @@
   border-radius: 10px;
   margin-bottom: 1.25rem;
   overflow: hidden;
+  background-color: antiquewhite;
+  box-shadow: 14px 12px 5px 0px rgba(0,0,0,0.75);
 }
 
 .productImage {

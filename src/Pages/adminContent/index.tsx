@@ -34,6 +34,7 @@ import { useAppDispatch } from "../../redux/store";
 import { ActionResponse } from "../../models/response/types";
 import AddContentModal from "./addContentDiaalog/AddContentDialog";
 import AddTopicDialog from "./addTopicDialog/AddTopicDialog";
+import { addImagesToTopicItem } from "../../helper/firebase";
 interface State {
   content: Array<ContentItem>;
   selectedTopic: Topic | null;
@@ -67,7 +68,8 @@ const Content = () => {
       Array<Topic>
     >;
     if (payload.data) {
-      getContent(payload.data[0], payload.data);
+      const topics = await addImagesToTopicItem(payload.data);
+      getContent(topics[0], topics);
     }
   };
 
@@ -98,17 +100,20 @@ const Content = () => {
   };
 
   const editTopic = async (topicId: string) => {
-    const topic = (await dispatch(getTopicAction(topicId))) as any;
+    const topic = state.topics.find((t) => t._id === topicId);
     if (topic) {
       setState({ ...state, selectedTopic: topic });
-      handleTopicModal.onClose();
+      handleTopicModal.onOpen();
     }
   };
 
   const removeTopic = async (topicId: string) => {
-    const topic = (await dispatch(removeTopicAction(topicId))) as any;
-    if (topic) {
-      getContent(state.topics[0]);
+    const { payload } = (await dispatch(
+      removeTopicAction(topicId)
+    )) as ActionResponse<boolean>;
+    debugger;
+    if (payload.data) {
+      await getData();
     }
   };
 
@@ -144,6 +149,11 @@ const Content = () => {
     handleContentModal.onClose();
   };
 
+  const createNewTopic = () => {
+    setState({ ...state, selectedTopic: null });
+    handleTopicModal.onOpen();
+  };
+
   return (
     <Card className="content-card">
       <Card className="topic-container-admin">
@@ -166,7 +176,7 @@ const Content = () => {
           <button
             className="transparent-btn"
             name="addTopicModal"
-            onClick={handleContentModal.onOpen}
+            onClick={createNewTopic}
           >
             <AddCircleOutlineIcon />
           </button>
@@ -174,7 +184,7 @@ const Content = () => {
         <button
           className="add-topic"
           name="addTopicModal"
-          onClick={handleContentModal.onOpen}
+          onClick={createNewTopic}
         >
           Add Topic
         </button>
@@ -250,10 +260,14 @@ const Content = () => {
       <AddContentModal
         handleModal={handleContentModal}
         closeContentModal={closeContentModal}
-        topic={state.selectedTopic}
+        topic={state.actualTopic}
         content={state.selectedContent}
       />
-      <Dialog fullWidth open={handleRemoveModal.isOpen} onClose={handleRemoveModal.onClose}>
+      <Dialog
+        fullWidth
+        open={handleRemoveModal.isOpen}
+        onClose={handleRemoveModal.onClose}
+      >
         <DialogContent>
           <RemoveItem
             closeModal={handleRemoveModal.onClose}

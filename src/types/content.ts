@@ -1,5 +1,5 @@
 export interface Topic extends Record {
-    img: Array<Buffer>;
+    img: Array<Buffer> | string;
     imgSrc?: string
     description: string;
 }

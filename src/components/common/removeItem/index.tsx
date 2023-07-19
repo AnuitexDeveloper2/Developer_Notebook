@@ -5,7 +5,7 @@ import "./index.css"
 
 interface Props {
     closeModal: () => void;
-    removeUser: () => Promise<void>;
+    removeUser: () => Promise<void> | void;
     mainText: string;
     minorText: string;
 }

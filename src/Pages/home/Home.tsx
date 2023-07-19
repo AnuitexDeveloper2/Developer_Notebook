@@ -4,6 +4,7 @@ import { getTopicsAction } from "../../redux/actions/topic";
 import { useAppDispatch } from "../../redux/store";
 import { Topic } from "../../types/content";
 import { ActionResponse } from "../../models/response/types";
+import { addImagesToTopicItem } from "../../helper/firebase";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +22,8 @@ const Home = () => {
       Array<Topic>
     >;
     if (payload.data) {
-      setState({ ...state, topics: payload.data });
+      const topics = await addImagesToTopicItem(payload.data);
+      setState({ ...state, topics: topics });
     }
   };
 
@@ -41,7 +43,7 @@ const Home = () => {
               <div className="topic-item">
                 <img
                   className="productImage"
-                  src={`https://topic-images1.s3.eu-central-1.amazonaws.com/${item.img}`}
+                  src={item.imgSrc}
                   alt={item.title}
                 />
               </div>

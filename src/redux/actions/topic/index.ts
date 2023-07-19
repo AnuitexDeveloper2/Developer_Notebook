@@ -66,16 +66,16 @@ export const editTopicAction = createAsyncThunk<string | undefined, any>(
     },
 );
 
-export const removeTopicAction = createAsyncThunk<string | undefined, string>(
-    'topic/createTopic',
+export const removeTopicAction = createAsyncThunk<ActionResponse<boolean> | undefined, string>(
+    'topic/removeTopic',
     async (id: string) => {
-        const result = await http<string | undefined, undefined>(
+        const result = await http<ActionResponse<boolean> | undefined, undefined>(
             {
                 method: 'DELETE',
                 path: `topics/${id}`,
             },
         );
-        console.log('EditTopic:');
+        console.log('RemoveTopic:');
         console.log(result.parsedBody);
         return result.parsedBody;
     },

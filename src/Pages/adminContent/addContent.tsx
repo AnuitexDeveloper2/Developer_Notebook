@@ -32,7 +32,6 @@ interface State {
 }
 
 interface ContentState {
-  content: ContentItem | null;
   selectedTopic: Topic | null;
 }
 
@@ -51,7 +50,6 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
   const { contentReducer } = selector;
 
   const [editedContent, setContent] = useState<ContentState>({
-    content: null,
     selectedTopic: null,
   });
 
@@ -67,7 +65,8 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
 
   useEffect(() => {
     if (content) {
-      setContent({ ...editedContent, content: content, selectedTopic: topic });
+      setContent({ ...editedContent, selectedTopic: topic });
+      setState({...state, title: content.title, description: content.description})
     } else {
       setContent({ ...editedContent, selectedTopic: topic });
     }
@@ -148,7 +147,6 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
           id: content._id,
         })
       )) as ActionResponse<ContentItem>;
-      debugger;
       if (payload.data) {
         onClose();
       }
@@ -186,7 +184,7 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
             <div>Title</div>
             <div>
               <input
-                defaultValue={state.title}
+                value={state.title}
                 name="title"
                 onChange={handleChange}
               />
