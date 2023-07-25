@@ -3,20 +3,20 @@ import { Box } from "@mui/material";
 import {
   createContentAction,
   editContentAction,
-} from "../../redux/actions/content";
-import { ContentItem, Record, Topic } from "../../types/content";
+} from "../../../redux/actions/content";
+import { ContentItem, Record, Topic } from "../../../types/content";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import "./index.css";
-import { alertService } from "../../services";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { ActionResponse } from "../../models/response/types";
+import { alertService } from "../../../services";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { ActionResponse } from "../../../models/response/types";
 import {
   createAppointmentAction,
   editAppointmentAction,
   getAppointmentsByTopicAction,
   removeAppointmentAction,
-} from "../../redux/actions/appointntment";
+} from "../../../redux/actions/appointntment";
+import { AddContentModalTitle } from "./AddContentDialog.styles";
 
 interface Props {
   content: ContentItem | null;
@@ -66,7 +66,11 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
   useEffect(() => {
     if (content) {
       setContent({ ...editedContent, selectedTopic: topic });
-      setState({...state, title: content.title, description: content.description})
+      setState({
+        ...state,
+        title: content.title,
+        description: content.description,
+      });
     } else {
       setContent({ ...editedContent, selectedTopic: topic });
     }
@@ -175,19 +179,15 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
 
   return (
     <Box padding="10px">
-      <div className="add-topic-title">
+      <AddContentModalTitle>
         <div>{content ? "Edit" : "New"} Content</div>
-      </div>
+      </AddContentModalTitle>
       <Box display={{ sm: "block", md: "flex" }} justifyContent="flex-start">
         <div>
           <div className="add-topic-name">
             <div>Title</div>
             <div>
-              <input
-                value={state.title}
-                name="title"
-                onChange={handleChange}
-              />
+              <input value={state.title} name="title" onChange={handleChange} />
             </div>
           </div>
           <div className="add-topic-name">
@@ -243,53 +243,7 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
             </div>
           </div>
         </div>
-        <div className="content-topic-select">
-          <form id="app-cover">
-            <div id="select-box">
-              <input type="checkbox" id="options-view-button" />
-              <div id="select-button" className="brd">
-                <div id="selected-value">
-                  {editedContent.selectedTopic && (
-                    <span>{editedContent.selectedTopic.title}</span>
-                  )}
-                </div>
-                <div id="chevrons">
-                  <i className="fas fa-chevron-up"></i>
-                  <i className="fas fa-chevron-down"></i>
-                </div>
-              </div>
-              {/* <div id="options">
-                {contentReducer.topics.map((item) => {
-                  return (
-                    <div
-                      key={item._id}
-                      className="option"
-                      onClick={() => handleSelect(item)}
-                    >
-                      <input
-                        className="s-c top"
-                        type="radio"
-                        name="platform"
-                        value="codepen"
-                      />
-                      <input
-                        className="s-c bottom"
-                        type="radio"
-                        name="platform"
-                        value="codepen"
-                      />
-                      <span className="label">{item.title}</span>
-                      <span className="opt-val">{item.title}</span>
-                    </div>
-                  );
-                })}
-                <div id="option-bg"></div>
-              </div> */}
-            </div>
-          </form>
-        </div>
       </Box>
-
       <div className="add-topic-submit">
         <button className="btn btn-danger" type="submit" onClick={onSubmit}>
           Submit

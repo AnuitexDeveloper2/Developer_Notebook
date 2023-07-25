@@ -70,3 +70,18 @@ export const editContentAction = createAsyncThunk<string | undefined, EditConten
         return result.parsedBody;
     },
 );
+
+export const getContentByAppointmentIdAction = createAsyncThunk<string | undefined, string>(
+    'content/getContentByAppointmentId',
+    async (id: string) => {
+        const result = await http<string | undefined, string>(
+            {
+                method: 'Get',
+                path: `contents/user/${id}`,
+            },
+        );
+        console.log('GetContentByAppointmentId:');
+        console.log(result.parsedBody);
+        return result.parsedBody;
+    },
+);

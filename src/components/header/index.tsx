@@ -9,7 +9,6 @@ import { HeaderMenu } from "./menu";
 
 import "./index.css";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { UserModel } from "../../types/auth";
 import { logOutAction } from "../../redux/reducers/authReducer";
 
 const Header: FC = () => {

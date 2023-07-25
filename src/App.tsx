@@ -7,8 +7,7 @@ import { setupStore } from "./redux/store";
 import { Provider } from "react-redux";
 import AdminRoute from "./components/common/adminRoute";
 
-import "./App.css";
-import TopicPage from "./Pages/topic";
+import TopicPage from "./Pages/topic/TopicPage";
 import Test from "./Test";
 import AlertDialog from "./components/common/alert/Alert";
 

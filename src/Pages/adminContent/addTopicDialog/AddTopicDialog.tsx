@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { ModalProps } from "../../../components/hooks/modal";
-import AddTopic from "../addTopic";
+import AddTopic from "./AddTopic";
 import { Topic } from "../../../types/content";
 interface Props {
   handleModal: ModalProps;

@@ -1,13 +1,10 @@
 import { Box } from "@mui/material";
-import React, { ChangeEvent, FC, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { sendMultipart } from "../../helper/request";
-import { ActionResponse } from "../../models/response/types";
-import { createTopicAction, editTopicAction } from "../../redux/actions/topic";
-import { useAppDispatch } from "../../redux/store";
-import { Topic } from "../../types/content";
-
-import "./index.css";
+import { ChangeEvent, FC, useEffect, useState } from "react";
+import { sendMultipart } from "../../../helper/request";
+import { ActionResponse } from "../../../models/response/types";
+import { createTopicAction, editTopicAction } from "../../../redux/actions/topic";
+import { useAppDispatch } from "../../../redux/store";
+import { Topic } from "../../../types/content";
 
 interface Props {
   addAndClose: (newTopic: Topic) => void;
@@ -67,7 +64,7 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
         editTopicAction({ ...editedTopic, _id: state.id })
       );
       if (payload) {
-        result = payload
+        result = payload;
       }
       if (state.preview) {
         sendImage(result?._id);
@@ -77,7 +74,6 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
   };
 
   const sendImage = async (id: string) => {
-    debugger;
     let formData = new FormData();
     if (state.imagesArray.length > 0) {
       formData.append("image", state.imagesArray[0]);

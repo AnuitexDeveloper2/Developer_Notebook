@@ -2,10 +2,9 @@ import React from "react";
 import { DialogTitle, IconButton, DialogContent } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { ModalProps } from "../../../components/hooks/modal";
-import AddContent from "../addContent";
 import { AddContentDialog } from "./AddContentDialog.styles";
 import { ContentItem, Topic } from "../../../types/content";
-
+import AddContent from "./AddContent";
 interface Props {
   handleModal: ModalProps;
   closeContentModal: () => void;

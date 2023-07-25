@@ -32,9 +32,10 @@ import RemoveItem from "../../components/common/removeItem";
 import PaginationTable from "../../components/common/pagination";
 import { useAppDispatch } from "../../redux/store";
 import { ActionResponse } from "../../models/response/types";
-import AddContentModal from "./addContentDiaalog/AddContentDialog";
+import AddContentModal from "./addContentDialog/AddContentDialog";
 import AddTopicDialog from "./addTopicDialog/AddTopicDialog";
 import { addImagesToTopicItem } from "../../helper/firebase";
+import { AddTopicButton, ContentCard, TopicContainerAdmin, TopicsSection } from "./AdminContent.styles";
 interface State {
   content: Array<ContentItem>;
   selectedTopic: Topic | null;
@@ -111,7 +112,6 @@ const Content = () => {
     const { payload } = (await dispatch(
       removeTopicAction(topicId)
     )) as ActionResponse<boolean>;
-    debugger;
     if (payload.data) {
       await getData();
     }
@@ -154,10 +154,15 @@ const Content = () => {
     handleTopicModal.onOpen();
   };
 
+  const createContent = () => {
+    setState({ ...state, selectedContent: null });
+    handleContentModal.onOpen();
+  };
+
   return (
-    <Card className="content-card">
-      <Card className="topic-container-admin">
-        <div className="topics-section">
+    <ContentCard>
+      <TopicContainerAdmin>
+        <TopicsSection>
           {state.topics &&
             state.topics.map((topic) => {
               return (
@@ -171,7 +176,7 @@ const Content = () => {
                 />
               );
             })}
-        </div>
+        </TopicsSection>
         <div className="add-topic-icon">
           <button
             className="transparent-btn"
@@ -181,20 +186,19 @@ const Content = () => {
             <AddCircleOutlineIcon />
           </button>
         </div>
-        <button
-          className="add-topic"
+        <AddTopicButton
           name="addTopicModal"
           onClick={createNewTopic}
         >
           Add Topic
-        </button>
-      </Card>
+        </AddTopicButton>
+      </TopicContainerAdmin>
       <div className="add-content-section">
         <div className="add-content-icon">
           <button
             className="transparent-btn"
             name="addContentModal"
-            onClick={handleContentModal.onOpen}
+            onClick={createContent}
           >
             <AddCircleOutlineIcon />
           </button>
@@ -202,7 +206,7 @@ const Content = () => {
         <button
           className="add-content"
           name="addContentModal"
-          onClick={handleContentModal.onOpen}
+          onClick={createContent}
         >
           Add Content
         </button>
@@ -277,7 +281,7 @@ const Content = () => {
           />
         </DialogContent>
       </Dialog>
-    </Card>
+    </ContentCard>
   );
 };
 

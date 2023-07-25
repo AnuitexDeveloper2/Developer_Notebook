@@ -5,7 +5,7 @@ const Test = () => {
   console.log("Parent");
 
   return (
-    <div style={{ marginTop: "200px" }}>
+    <div >
       Hello
       <button onClick={() => setCount(count + 1)}>Click</button>
       <div>
