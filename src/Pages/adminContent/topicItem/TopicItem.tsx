@@ -2,10 +2,17 @@ import React, { FC, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-import { Topic } from "../../types/content";
+import { Topic } from "../../../types/content";
 import { Dialog, DialogContent } from "@mui/material";
-import RemoveItem from "../../components/common/removeItem";
-import { useModalState } from "../../components/hooks/modal";
+import RemoveItem from "../../../components/common/removeItem";
+import { useModalState } from "../../../components/hooks/modal";
+import {
+  AdminTopicImage,
+  AdminTopicSection,
+  AdminTopicTitle,
+  AdminTopicWrapper,
+} from "./TopicItem.styles";
+import { EditActionImage, RemoveActionImage } from "../../../styles/common.styles";
 
 interface Props {
   topic: Topic;
@@ -39,24 +46,28 @@ const TopicItem: FC<Props> = ({
   };
 
   return (
-    <div className={`admin-topic-wrapper ${highlight}`}>
-      <div className="admin-topic-section" onClick={handleSelect}>
-        <div className="admin-topic-title">{topic.title}</div>
-        <div >
-                    {topic.img && <img className="admin-topic-img" src={topic.imgSrc} alt={topic.title} />}
-                </div>
-      </div>
+    <AdminTopicWrapper className={`${highlight}`}>
+      <AdminTopicSection onClick={handleSelect}>
+        <AdminTopicTitle>{topic.title}</AdminTopicTitle>
+        <div>
+          {topic.img && (
+            <AdminTopicImage
+              src={topic.imgSrc}
+              alt={topic.title}
+            />
+          )}
+        </div>
+      </AdminTopicSection>
       <div>
         <div>
-          <EditIcon
-            className="edit-image-icon"
+          <EditActionImage
             onClick={() => {
               editTopic(topic._id);
             }}
           />
         </div>
         <div>
-          <HighlightOffIcon className="remove-image-icon" onClick={onOpen} />
+          <RemoveActionImage onClick={onOpen} />
         </div>
       </div>
       <Dialog fullWidth open={isOpen} onClose={onClose}>
@@ -69,7 +80,7 @@ const TopicItem: FC<Props> = ({
           />
         </DialogContent>
       </Dialog>
-    </div>
+    </AdminTopicWrapper>
   );
 };
 

@@ -5,8 +5,6 @@ import {
   editContentAction,
 } from "../../../redux/actions/content";
 import { ContentItem, Record, Topic } from "../../../types/content";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { alertService } from "../../../services";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { ActionResponse } from "../../../models/response/types";
@@ -16,7 +14,19 @@ import {
   getAppointmentsByTopicAction,
   removeAppointmentAction,
 } from "../../../redux/actions/appointntment";
-import { AddContentModalTitle } from "./AddContentDialog.styles";
+import {
+  AddContentModalTitle,
+  AppointmentItem,
+  AppointmentSection,
+  EditAppointmentButton,
+  FormContent,
+  NewTitleInput,
+  RemoveAppointment,
+  SelectAppointmentSection,
+  SubmitAddTopic,
+} from "./AddContentDialog.styles";
+import { AddTopicName } from "../../../styles/common.styles";
+import Switcher from "../../../components/common/switcher/Switcher";
 
 interface Props {
   content: ContentItem | null;
@@ -29,6 +39,7 @@ interface State {
   description: string;
   appointment: Record | null;
   appointments: Array<Record>;
+  newAppointment: string;
 }
 
 interface ContentState {
@@ -42,18 +53,16 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
     description: "",
     appointment: null,
     appointments: [],
+    newAppointment: "",
   });
 
   const [editAppointment, setEditAppointment] = useState(true);
-
-  const selector = useAppSelector((state) => state);
-  const { contentReducer } = selector;
 
   const [editedContent, setContent] = useState<ContentState>({
     selectedTopic: null,
   });
 
-  const switchInput = async () => {
+  const switchInput = () => {
     setEditAppointment(!editAppointment);
   };
 
@@ -66,64 +75,62 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
   useEffect(() => {
     if (content) {
       setContent({ ...editedContent, selectedTopic: topic });
-      setState({
-        ...state,
-        title: content.title,
-        description: content.description,
-      });
     } else {
       setContent({ ...editedContent, selectedTopic: topic });
     }
     getAppointments();
   }, [content]);
 
-  const handleSelect = (topic: Topic) => {
-    setContent({ ...editedContent, selectedTopic: topic });
-  };
-
   const getAppointments = async () => {
+    debugger;
     if (!topic) {
       return;
     }
     const { payload } = (await dispatch(
       getAppointmentsByTopicAction(topic._id)
-    )) as any;
-    if (content) {
-      const index = payload.findIndex(
+    )) as ActionResponse<Array<Record>>;
+    if (content && payload.data) {
+      const index = payload.data.findIndex(
         (x: any) => x._id === content.appointment
       );
       if (index !== -1) {
-        payload.splice(0, 0, payload.splice(index, 1)[0]);
+        payload.data.splice(0, 0, payload.data.splice(index, 1)[0]);
       }
+      debugger;
     }
     setState({
       ...state,
-      appointments: payload,
-      appointment: payload[0],
+      appointments: payload.data || [],
+      appointment: payload.data?.length ? payload.data[0] : null,
       title: content ? content.title : "",
       description: content ? content.description : "",
+      newAppointment: payload.data?.length ? payload.data[0].title : "",
     });
   };
 
   const addAppointment = async () => {
     let result: any;
-    if (!topic || !state.appointment) {
+    if (!topic || !state.appointment || !state.newAppointment) {
       return;
     }
     if (editAppointment) {
-      result = (await dispatch(
-        editAppointmentAction(state.appointment as any)
+      const { payload } = (await dispatch(
+        editAppointmentAction({
+          ...state.appointment,
+          title: state.newAppointment,
+        } as any)
       )) as unknown as ActionResponse<any>;
+      result = payload;
     } else {
       const { payload } = (await dispatch(
         createAppointmentAction({
-          title: state.appointment.toString(),
+          title: state.newAppointment,
           topic: topic?._id,
         })
       )) as unknown as ActionResponse<any>;
       result = payload;
     }
-    if (result.error) {
+    if (result?.error) {
       alertService.error(result.error, { fade: false });
     }
     if (result.data) {
@@ -162,15 +169,21 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
       (item) => item._id === event.target.value
     );
     if (currentAppointment) {
-      setState({ ...state, appointment: currentAppointment });
+      setState({
+        ...state,
+        appointment: currentAppointment,
+        newAppointment: currentAppointment.title,
+      });
     }
   };
 
   const removeAppointment = async () => {
+    debugger;
     if (state.appointment) {
       const result: any = await dispatch(
         removeAppointmentAction(state.appointment?._id)
       );
+      debugger;
       if (result) {
         await getAppointments();
       }
@@ -182,73 +195,82 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
       <AddContentModalTitle>
         <div>{content ? "Edit" : "New"} Content</div>
       </AddContentModalTitle>
-      <Box display={{ sm: "block", md: "flex" }} justifyContent="flex-start">
+      <FormContent>
         <div>
-          <div className="add-topic-name">
+          <AddTopicName>
             <div>Title</div>
             <div>
-              <input value={state.title} name="title" onChange={handleChange} />
+              <NewTitleInput
+                value={state.title}
+                name="title"
+                onChange={handleChange}
+              />
             </div>
-          </div>
-          <div className="add-topic-name">
-            <div>Appointment</div>
-            <div>
-              <div className="appointment-item">
-                <select name="select" onChange={handleAppointment}>
+          </AddTopicName>
+          <AppointmentSection>
+            <SelectAppointmentSection>
+              <div>Appointment</div>
+              <AppointmentItem>
+                <select
+                  name="select"
+                  value={state.appointment?._id}
+                  onChange={handleAppointment}
+                >
                   {state.appointments.map((item, i) => {
-                    return <option value={i}>{item.title}</option>;
+                    return (
+                      <option value={item._id} key={item._id}>
+                        {item.title}
+                      </option>
+                    );
                   })}
                 </select>
-                <HighlightOffIcon
-                  className="remove-image-icon"
-                  onClick={removeAppointment}
-                />
-              </div>
+                <div>
+                  <RemoveAppointment
+                    onClick={removeAppointment}
+                    name={"newAppointment"}
+                  />
+                </div>
+              </AppointmentItem>
+            </SelectAppointmentSection>
 
-              <div className="appointment-item">
-                <input
-                  className="appointment-input"
-                  value={state.appointment ? state.appointment.title : ""}
-                  name="appointment"
-                  onChange={handleChange}
-                />
-                <button
-                  className="transparent-btn"
-                  name="addTopicModal"
-                  onClick={switchInput}
-                >
-                  <AddCircleOutlineIcon />
-                </button>
-              </div>
-
-              <div className="appointment-item">
-                <button onClick={addAppointment}>
-                  {editAppointment ? "Edit " : "Add "}appointment
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="add-topic-image">
-            <div>Description</div>
-            <div>
-              <textarea
-                defaultValue={state.description}
-                className="add-topic-description"
-                name="description"
-                id=""
-                cols={30}
-                rows={10}
+            <SelectAppointmentSection>
+              <div />
+              <NewTitleInput
+                value={state.newAppointment}
+                name="newAppointment"
                 onChange={handleChange}
-              ></textarea>
-            </div>
-          </div>
+              />
+              <Switcher onClick={switchInput} value={editAppointment} />
+            </SelectAppointmentSection>
+
+            <SelectAppointmentSection>
+              <div />
+              <EditAppointmentButton
+                onClick={addAppointment}
+                className={`${editAppointment ? "edit" : "add"}`}
+              >
+                {editAppointment ? "Edit " : "Add "}appointment
+              </EditAppointmentButton>
+            </SelectAppointmentSection>
+          </AppointmentSection>
+          <SelectAppointmentSection>
+            <div>Description</div>
+            <textarea
+              defaultValue={state.description}
+              className="add-topic-description"
+              name="description"
+              id=""
+              cols={30}
+              rows={10}
+              onChange={handleChange}
+            ></textarea>
+          </SelectAppointmentSection>
         </div>
-      </Box>
-      <div className="add-topic-submit">
-        <button className="btn btn-danger" type="submit" onClick={onSubmit}>
-          Submit
-        </button>
-      </div>
+        <SelectAppointmentSection>
+          <div />
+          <SubmitAddTopic onClick={onSubmit}>Submit</SubmitAddTopic>
+        </SelectAppointmentSection>
+      </FormContent>
     </Box>
   );
 };

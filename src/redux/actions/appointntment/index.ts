@@ -43,7 +43,7 @@ export const editAppointmentAction = createAsyncThunk<string | undefined, any>(
   async (data: any) => {
     const result = await http<string | undefined, any>({
       method: "PUT",
-      path: `appointment/${data.id}`,
+      path: `appointment/${data._id}`,
       body: data,
     });
     console.log("EditAppointment:");

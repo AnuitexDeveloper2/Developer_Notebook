@@ -19,7 +19,7 @@ import {
   getTopicsAction,
   removeTopicAction,
 } from "../../redux/actions/topic";
-import TopicItem from "./topicItem";
+import TopicItem from "./topicItem/TopicItem";
 import { ContentItem, Topic } from "../../types/content";
 import {
   getContentAction,
@@ -36,6 +36,7 @@ import AddContentModal from "./addContentDialog/AddContentDialog";
 import AddTopicDialog from "./addTopicDialog/AddTopicDialog";
 import { addImagesToTopicItem } from "../../helper/firebase";
 import { AddTopicButton, ContentCard, TopicContainerAdmin, TopicsSection } from "./AdminContent.styles";
+import { EditActionImage, RemoveActionImage } from "../../styles/common.styles";
 interface State {
   content: Array<ContentItem>;
   selectedTopic: Topic | null;
@@ -234,14 +235,12 @@ const Content = () => {
                   <TableCell>
                     <div className="content-actions">
                       <div>
-                        <EditIcon
-                          className="edit-image-icon"
+                        <EditActionImage
                           onClick={() => editContent(item)}
                         />
                       </div>
                       <div>
-                        <HighlightOffIcon
-                          className="remove-image-icon"
+                        <RemoveActionImage
                           onClick={() => openRemove(item)}
                         />
                       </div>

@@ -4,7 +4,9 @@ import { sendMultipart } from "../../../helper/request";
 import { ActionResponse } from "../../../models/response/types";
 import { createTopicAction, editTopicAction } from "../../../redux/actions/topic";
 import { useAppDispatch } from "../../../redux/store";
+import { AddTopicName } from "../../../styles/common.styles";
 import { Topic } from "../../../types/content";
+import { AddTopicTitle } from "./AddTopic.styles";
 
 interface Props {
   addAndClose: (newTopic: Topic) => void;
@@ -88,11 +90,11 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
   };
   return (
     <Box padding="10px">
-      <div className="add-topic-title">
+      <AddTopicTitle>
         <div>{topic ? "Edit" : "New"} Topic</div>
-      </div>
+      </AddTopicTitle>
       <div>
-        <div className="add-topic-name">
+        <AddTopicName>
           <div>Title</div>
           <div>
             <input
@@ -101,7 +103,7 @@ const AddTopic: FC<Props> = ({ addAndClose, topic }) => {
               onChange={handleChange}
             />
           </div>
-        </div>
+        </AddTopicName>
         <div
           className={`add-topic-image ${
             state.preview ? "with-image" : "without-image"
