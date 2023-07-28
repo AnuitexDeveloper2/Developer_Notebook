@@ -42,18 +42,20 @@ const TopicPage: React.FC = () => {
   };
 
   const setData = async (appointments: Array<Record>) => {
-    const content = await getContent(appointments[0]._id)
-    setState({
-      ...state,
-      appointments: appointments,
-      activeAppointment: appointments[0]._id,
-      content
-    });
+    if (appointments.length) {
+      const content = await getContent(appointments[0]._id);
+      setState({
+        ...state,
+        appointments: appointments,
+        activeAppointment: appointments[0]._id,
+        content,
+      });
+    }
   };
 
-  const selectAppointment = async(event: React.MouseEvent<HTMLLIElement>) => {
-    const appointmentId = event.currentTarget.id
-    const content = await getContent(appointmentId)
+  const selectAppointment = async (event: React.MouseEvent<HTMLLIElement>) => {
+    const appointmentId = event.currentTarget.id;
+    const content = await getContent(appointmentId);
     setState({ ...state, activeAppointment: appointmentId, content });
   };
 
@@ -61,7 +63,7 @@ const TopicPage: React.FC = () => {
     const { payload } = (await dispatch(
       getContentByAppointmentIdAction(appointmentId)
     )) as ActionResponse<any>;
-    return payload.data
+    return payload.data;
   };
 
   return (
@@ -71,7 +73,7 @@ const TopicPage: React.FC = () => {
         active={state.activeAppointment}
         selectAppointment={selectAppointment}
       />
-      <ContentSection items={state.content}/>
+      <ContentSection items={state.content} />
     </TopicPageWrapper>
   );
 };

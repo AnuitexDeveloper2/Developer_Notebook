@@ -110,7 +110,8 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
 
   const addAppointment = async () => {
     let result: any;
-    if (!topic || !state.appointment || !state.newAppointment) {
+    debugger
+    if (!topic || !state.newAppointment) {
       return;
     }
     if (editAppointment) {

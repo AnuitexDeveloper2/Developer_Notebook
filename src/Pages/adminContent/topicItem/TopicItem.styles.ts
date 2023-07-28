@@ -14,7 +14,9 @@ export const AdminTopicSection = styled("div")`
   }
 `;
 
-export const AdminTopicTitle = styled("div")``;
+export const AdminTopicTitle = styled("div")`
+  text-align: center;
+`;
 
 export const AdminTopicImage = styled("img")`
   width: 100px;
