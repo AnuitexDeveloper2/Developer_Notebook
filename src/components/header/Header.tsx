@@ -1,15 +1,11 @@
 import React, { FC, useState } from "react";
-import user from "../../assets/zondicons/user.svg";
+import User from "../../assets/zondicons/user.svg";
 import ModalManager from "../common/modalManager";
-import {
-  handleLoginModal,
-  HeaderState,
-} from "../../redux/reducers/headerReducer";
-import { HeaderMenu } from "./menu";
-
-import "./index.css";
+import { handleLoginModal } from "../../redux/reducers/headerReducer";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { logOutAction } from "../../redux/reducers/authReducer";
+import { HeaderTitle, HeaderUserIcon, HeaderWrapper } from "./Header.styles";
+import { HeaderMenu } from "./menu/Menu";
 
 const Header: FC = () => {
   const dispatch = useAppDispatch();
@@ -38,17 +34,17 @@ const Header: FC = () => {
   };
 
   return (
-    <div className="header">
+    <HeaderWrapper>
       <div></div>
-      <div className="header-title">
+      <HeaderTitle>
         <a href="/">Notebook</a>
-      </div>
+      </HeaderTitle>
       <div>
-        <img
-          src={user}
+        <HeaderUserIcon
+          src={User}
           onClick={showDropdownMenu}
-          className="user-icon"
-          alt=""
+          alt="menu"
+          width={40}
         />
         {state.showMenu ? (
           <HeaderMenu
@@ -59,7 +55,7 @@ const Header: FC = () => {
         ) : null}
         <ModalManager />
       </div>
-    </div>
+    </HeaderWrapper>
   );
 };
 

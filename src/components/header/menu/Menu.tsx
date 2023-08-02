@@ -1,6 +1,6 @@
 import React from "react";
-import { FC } from "react";
-import { Role } from "../../types/auth";
+import { Role } from "../../../types/auth";
+import { HeaderMenuContent } from "./Menu.styles";
 
 interface Props {
   handleSelect: (event: any) => void;
@@ -8,24 +8,24 @@ interface Props {
   logOut: () => void;
 }
 
-export const HeaderMenu: FC<Props> = ({ handleSelect, role, logOut }) => {
+export const HeaderMenu: React.FC<Props> = ({ handleSelect, role, logOut }) => {
   const goToPage = (path: string) => {
     window.location.href = path;
   };
   switch (role) {
     case Role.USER:
       return (
-        <ul className="header-menu">
+        <HeaderMenuContent>
           <li className="header-menu-item">
             <a className="active" id={"1"} onClick={logOut} href="#Create Page">
               Log Out
             </a>
           </li>
-        </ul>
+        </HeaderMenuContent>
       );
     case Role.ADMIN:
       return (
-        <ul className="header-menu">
+        <HeaderMenuContent>
           <li className="header-menu-item">
             <a
               className="active"
@@ -41,11 +41,11 @@ export const HeaderMenu: FC<Props> = ({ handleSelect, role, logOut }) => {
               Log Out
             </a>
           </li>
-        </ul>
+        </HeaderMenuContent>
       );
     default:
       return (
-        <ul className="header-menu">
+        <HeaderMenuContent>
           <li className="header-menu-item">
             <a
               className="active"
@@ -56,7 +56,7 @@ export const HeaderMenu: FC<Props> = ({ handleSelect, role, logOut }) => {
               Sign In
             </a>
           </li>
-        </ul>
+        </HeaderMenuContent>
       );
   }
 };

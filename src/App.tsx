@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Home from "./Pages/home/Home";
 import Content from "./Pages/adminContent";
-import Header from "./components/header/index";
+import Header from "./components/header/Header";
 import { setupStore } from "./redux/store";
 import { Provider } from "react-redux";
 import AdminRoute from "./components/common/adminRoute";
