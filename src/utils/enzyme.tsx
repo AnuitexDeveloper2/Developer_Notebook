@@ -1,10 +1,11 @@
 import { createMemoryHistory } from "history";
-import thunk from "redux-thunk";
-import configureStore from "redux-mock-store";
-import { Router } from "react-router-dom";
-import { Provider } from "react-redux";
+import thunk from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import { Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { RootState } from "../redux/store";
 import { Topic, Record } from "../types/content";
+
 
 const initialState: RootState = {
   headerReducer: {
@@ -27,5 +28,9 @@ export const wrapWithProvider = (
     initialState
   );
   const store = mockStore(mockState);
-  return <Provider store={store}>{componentToWrap}</Provider>;
+  return (
+    <Provider store={store}>
+      <Router location={''} navigator={createMemoryHistory()}>{componentToWrap}</Router>
+    </Provider>
+  );
 };

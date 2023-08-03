@@ -217,7 +217,7 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
                   value={state.appointment?._id}
                   onChange={handleAppointment}
                 >
-                  {state.appointments.map((item, i) => {
+                  {state.appointments.map((item) => {
                     return (
                       <option value={item._id} key={item._id}>
                         {item.title}

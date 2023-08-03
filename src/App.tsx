@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import AdminRoute from "./components/common/adminRoute";
 
 import TopicPage from "./Pages/topic/TopicPage";
-import Test from "./Test";
 import AlertDialog from "./components/common/alert/Alert";
 
 function App() {
@@ -21,7 +20,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/topic/:id" element={<TopicPage />} />
-          <Route path="/test" element={<Test />} />
           <Route
             path="/content"
             element={

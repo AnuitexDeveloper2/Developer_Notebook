@@ -19,7 +19,7 @@
     "composite": false,
     "sourceMap": true,
     "inlineSources": true,
-    "noUnusedLocals": true,
+    // "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,

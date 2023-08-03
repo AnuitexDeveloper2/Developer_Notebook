@@ -6,10 +6,10 @@ import Register from "../../../Pages/signUp/signUp";
 import { useAppSelector } from "../../../redux/store";
 
 interface ModalProps {
-  popUpState: HeaderState;
+  popUpState?: HeaderState;
 }
 
-const ModalManager: FC<any> = (props) => {
+const ModalManager: FC<ModalProps> = () => {
   const selector = useAppSelector((state) => state);
   const { headerReducer } = selector;
   if (headerReducer.openLogin) {

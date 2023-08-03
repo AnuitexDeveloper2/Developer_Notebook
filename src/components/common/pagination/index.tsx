@@ -27,8 +27,8 @@ const PaginationTable: FC<Props> = ({
   };
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
+    _event: React.MouseEvent<HTMLButtonElement> | null,
+    _newPage: number,
   ): void => {
     // getCoupons(newPage + 1, state.perPage, state.field, state.order, state.searchField, state.searchValue);
   };
