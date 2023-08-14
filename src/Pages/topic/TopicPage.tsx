@@ -8,18 +8,13 @@ import { ContentItem, Record } from "../../types/content";
 import AppointmentNavBar from "./appointmentNavBar/AppointmentNavBar";
 import ContentSection from "./contenSection/ContentSection";
 import { TopicPageWrapper } from "./TopicPage.styles";
-
-interface State {
-  appointments: Array<Record>;
-  content: Array<ContentItem>;
-  activeAppointment: string;
-}
+import { TopicPageState } from "./TopicPage.types";
 
 const TopicPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const params = useParams<{ id: string }>();
 
-  const [state, setState] = useState<State>({
+  const [state, setState] = useState<TopicPageState>({
     appointments: Array<Record>(),
     content: Array<ContentItem>(),
     activeAppointment: "",
