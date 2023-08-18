@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { teal } from "../../../styles/colors";
 
 export const AppointmentNavBarWrapper = styled("div")`
   height: calc(100vh - 81px);
-  width: 20%;
+  min-height: 100%;
+  min-width: 20%;
   border-right: 1px solid #e5e5e5;
   background-color: #824c67;
   box-shadow: rgba(0, 0, 0, 0.35) 4px 4px 5px 0px;
@@ -15,7 +17,7 @@ export const AppointmentNavBarWrapper = styled("div")`
       font-weight: 700;
       color: #e5e5e5;
       &:hover {
-        color: blue;
+        color: ${teal};
       }
       &.active {
         background-color: blue;
