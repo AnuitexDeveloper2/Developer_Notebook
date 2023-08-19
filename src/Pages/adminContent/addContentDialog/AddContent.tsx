@@ -82,7 +82,6 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
   }, [content]);
 
   const getAppointments = async () => {
-    debugger;
     if (!topic) {
       return;
     }
@@ -96,7 +95,6 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
       if (index !== -1) {
         payload.data.splice(0, 0, payload.data.splice(index, 1)[0]);
       }
-      debugger;
     }
     setState({
       ...state,
@@ -110,7 +108,6 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
 
   const addAppointment = async () => {
     let result: any;
-    debugger
     if (!topic || !state.newAppointment) {
       return;
     }
@@ -179,12 +176,10 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
   };
 
   const removeAppointment = async () => {
-    debugger;
     if (state.appointment) {
       const result: any = await dispatch(
         removeAppointmentAction(state.appointment?._id)
       );
-      debugger;
       if (result) {
         await getAppointments();
       }

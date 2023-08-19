@@ -85,3 +85,18 @@ export const getContentByAppointmentIdAction = createAsyncThunk<string | undefin
         return result.parsedBody;
     },
 );
+
+export const searchContentAction = createAsyncThunk<string | undefined, string>(
+    'content/searchContent',
+    async (searchString: string) => {
+        const result = await http<string | undefined, string>(
+            {
+                method: 'Get',
+                path: `contents/search/${searchString}`,
+            },
+        );
+        console.log('SearchContent:');
+        console.log(result.parsedBody);
+        return result.parsedBody;
+    },
+);

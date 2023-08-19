@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import {
-  Card,
   TableContainer,
   Table,
   TableHead,
@@ -11,11 +10,8 @@ import {
   DialogContent,
   TableBody,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
-  getTopicAction,
   getTopicsAction,
   removeTopicAction,
 } from "../../redux/actions/topic";
@@ -37,6 +33,7 @@ import AddTopicDialog from "./addTopicDialog/AddTopicDialog";
 import { addImagesToTopicItem } from "../../helper/firebase";
 import { AddTopicButton, ContentCard, TopicContainerAdmin, TopicsSection } from "./AdminContent.styles";
 import { EditActionImage, RemoveActionImage } from "../../styles/common.styles";
+import { alertService } from "../../services";
 interface State {
   content: Array<ContentItem>;
   selectedTopic: Topic | null;
@@ -69,9 +66,11 @@ const Content = () => {
     const { payload } = (await dispatch(getTopicsAction())) as ActionResponse<
       Array<Topic>
     >;
-    if (payload.data) {
+    if (payload?.data) {
       const topics = await addImagesToTopicItem(payload.data);
       getContent(topics[0], topics);
+    } else {
+      alertService.error('Something went wrong')
     }
   };
 

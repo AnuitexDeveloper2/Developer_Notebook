@@ -1,4 +1,5 @@
 import React, { FC, useState } from "react";
+import { useLocation } from "react-router-dom";
 import User from "../../assets/zondicons/user.svg";
 import ModalManager from "../common/modalManager";
 import { handleLoginModal } from "../../redux/reducers/headerReducer";
@@ -8,6 +9,10 @@ import { HeaderTitle, HeaderUserIcon, HeaderWrapper } from "./Header.styles";
 import { HeaderMenu } from "./menu/Menu";
 
 const Header: FC = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const topicName = queryParams.get("topic");
   const dispatch = useAppDispatch();
   const selector = useAppSelector((state) => state);
 
@@ -37,7 +42,7 @@ const Header: FC = () => {
     <HeaderWrapper>
       <div></div>
       <HeaderTitle>
-        <a href="/">Notebook</a>
+        <a href="/">{topicName || "Notebook"}</a>
       </HeaderTitle>
       <div>
         <HeaderUserIcon

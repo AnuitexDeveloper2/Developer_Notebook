@@ -1,23 +1,34 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Topic, Record } from "../../types/content";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Topic, Record, ContentItem } from "../../types/content";
 import { getTopicsAction } from "../actions/topic";
 
 export interface ContentState {
-    topics: Array<Topic>
-    records: Array<Record>
+  topics: Array<Topic>;
+  records: Array<Record>;
+  searchString: string;
+  searchedContent: Array<ContentItem>;
 }
 
 const initialState: ContentState = {
-    topics: Array<Topic>(),
-    records: Array<Record>()
-}
+  topics: Array<Topic>(),
+  records: Array<Record>(),
+  searchString: "",
+  searchedContent: Array<ContentItem>(),
+};
 
 export const contentReducer = createSlice({
-    name: 'content',
-    initialState: initialState,
-    reducers: { },
-})
+  name: "content",
+  initialState: initialState,
+  reducers: {
+    setSearchString(state, action: PayloadAction<string>) {
+      state.searchString = action.payload;
+    },
+    setSearchedContent(state, action: PayloadAction<Array<ContentItem>>) {
+      state.searchedContent = action.payload;
+    },
+  },
+});
 
-export const { } = contentReducer.actions
+export const {setSearchString, setSearchedContent} = contentReducer.actions;
 
-export default contentReducer.reducer
+export default contentReducer.reducer;
