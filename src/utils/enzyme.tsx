@@ -15,7 +15,7 @@ const initialState: RootState = {
   contentReducer: {
     topics: Array<Topic>(),
     records: Array<Record>(),
-    searchedContent: Array<ContentItem>(),
+    searchedContent: Array<ContentItem<string>>(),
     searchString: ''
   },
 };

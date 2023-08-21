@@ -14,6 +14,9 @@ export const ArticleItemWrapper = styled("a")`
     max-height: fit-content;
     height: 100%;
   }
+  &.opacity {
+    opacity: 0.2;
+  }
 `;
 
 export const ArticleTitle = styled("div")`

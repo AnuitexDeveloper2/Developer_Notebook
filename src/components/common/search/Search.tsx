@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Input, Image } from "antd";
 import React, { useState } from "react";
 import { searchContentAction } from "../../../redux/actions/content";
 import {
@@ -7,13 +7,11 @@ import {
 } from "../../../redux/reducers/contentReducer";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { ContentItem } from "../../../types/content";
+import clear from "../../../assets/images/close.svg";
 
 const Search: React.FC = () => {
   const dispatch = useAppDispatch();
   const { searchString } = useAppSelector((state) => state.contentReducer);
-  const [state, setState] = useState({
-    content: Array<ContentItem>(),
-  });
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -29,7 +27,31 @@ const Search: React.FC = () => {
     }
   };
 
-  return <Input onChange={handleChange} value={searchString} />;
+  const clearSearchInput = () => {
+    dispatch(setSearchString(""));
+    dispatch(setSearchedContent([]));
+  }
+
+  return (
+    <>
+      <Input
+        onChange={handleChange}
+        value={searchString}
+        suffix={
+          <>
+            {searchString && (
+              <Image
+                preview={false}
+                src={clear}
+                width={'20px'}
+                onClick={clearSearchInput}
+              />
+            )}
+          </>
+        }
+      />
+    </>
+  );
 };
 
 export default Search;

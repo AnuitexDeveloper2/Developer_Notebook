@@ -6,14 +6,14 @@ export interface ContentState {
   topics: Array<Topic>;
   records: Array<Record>;
   searchString: string;
-  searchedContent: Array<ContentItem>;
+  searchedContent: Array<ContentItem<string>>;
 }
 
 const initialState: ContentState = {
   topics: Array<Topic>(),
   records: Array<Record>(),
   searchString: "",
-  searchedContent: Array<ContentItem>(),
+  searchedContent: Array<ContentItem<string>>(),
 };
 
 export const contentReducer = createSlice({
@@ -23,7 +23,7 @@ export const contentReducer = createSlice({
     setSearchString(state, action: PayloadAction<string>) {
       state.searchString = action.payload;
     },
-    setSearchedContent(state, action: PayloadAction<Array<ContentItem>>) {
+    setSearchedContent(state, action: PayloadAction<Array<ContentItem<string>>>) {
       state.searchedContent = action.payload;
     },
   },

@@ -1,19 +1,29 @@
 import React from "react";
+import Search from "../../../components/common/search/Search";
 import { ContentItem } from "../../../types/content";
 import ItemComponent from "./contentItem/ContentItem";
-import { ContentSectionWrapper } from "./ContentSection.styles";
+import {
+  ContentSectionContainer,
+  ContentSectionWrapper,
+  SearchSection,
+} from "./ContentSection.styles";
 
 interface Props {
-  items: Array<ContentItem>;
+  items: Array<ContentItem<string>>;
 }
 
 const ContentSection: React.FC<Props> = ({ items }) => {
   return (
-    <ContentSectionWrapper>
-      {items.map((item) => (
-        <ItemComponent key={item._id} item={item} />
-      ))}
-    </ContentSectionWrapper>
+    <ContentSectionContainer>
+      <SearchSection>
+        <Search />
+      </SearchSection>
+      <ContentSectionWrapper>
+        {items.map((item) => (
+          <ItemComponent key={item._id} item={item} />
+        ))}
+      </ContentSectionWrapper>
+    </ContentSectionContainer>
   );
 };
 

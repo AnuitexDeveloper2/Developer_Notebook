@@ -16,7 +16,7 @@ import {
   removeTopicAction,
 } from "../../redux/actions/topic";
 import TopicItem from "./topicItem/TopicItem";
-import { ContentItem, Topic } from "../../types/content";
+import { ContentItem, Record, Topic } from "../../types/content";
 import {
   getContentAction,
   removeContentAction,
@@ -35,9 +35,9 @@ import { AddTopicButton, ContentCard, TopicContainerAdmin, TopicsSection } from 
 import { EditActionImage, RemoveActionImage } from "../../styles/common.styles";
 import { alertService } from "../../services";
 interface State {
-  content: Array<ContentItem>;
+  content: Array<ContentItem<Record>>;
   selectedTopic: Topic | null;
-  selectedContent: ContentItem | null;
+  selectedContent: ContentItem<Record> | null;
   actualTopic: Topic | null;
   total: number;
   topics: Array<Topic>;
@@ -129,7 +129,7 @@ const Content = () => {
     }
   };
 
-  const editContent = async (contentItem: ContentItem) => {
+  const editContent = async (contentItem: ContentItem<Record>) => {
     setState({ ...state, selectedContent: contentItem });
     handleContentModal.onOpen();
   };
@@ -139,7 +139,7 @@ const Content = () => {
     getContent(topic);
   };
 
-  const openRemove = (contentItem: ContentItem) => {
+  const openRemove = (contentItem: ContentItem<Record>) => {
     setState({ ...state, selectedContent: contentItem });
     handleRemoveModal.onOpen();
   };

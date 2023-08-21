@@ -4,8 +4,8 @@ export interface Topic extends Record {
     description: string;
 }
 
-export interface ContentItem extends Record {
-    appointment: Record;
+export interface ContentItem<T> extends Record {
+    appointment: T;
     description: string;
     topic: string;
 }

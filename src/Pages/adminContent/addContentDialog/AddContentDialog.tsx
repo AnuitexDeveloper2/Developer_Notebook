@@ -3,13 +3,13 @@ import { DialogTitle, IconButton, DialogContent } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { ModalProps } from "../../../components/hooks/modal";
 import { AddContentDialog } from "./AddContentDialog.styles";
-import { ContentItem, Topic } from "../../../types/content";
+import { ContentItem, Record, Topic } from "../../../types/content";
 import AddContent from "./AddContent";
 interface Props {
   handleModal: ModalProps;
   closeContentModal: () => void;
   topic: Topic | null;
-  content: ContentItem | null;
+  content: ContentItem<Record> | null;
 }
 
 export const AddContentModal: React.FC<Props> = ({

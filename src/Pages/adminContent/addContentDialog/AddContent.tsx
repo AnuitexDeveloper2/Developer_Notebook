@@ -29,7 +29,7 @@ import { AddTopicName } from "../../../styles/common.styles";
 import Switcher from "../../../components/common/switcher/Switcher";
 
 interface Props {
-  content: ContentItem | null;
+  content: ContentItem<Record> | null;
   onClose: () => void;
   topic: Topic | null;
 }
@@ -155,7 +155,7 @@ const AddContent: FC<Props> = ({ content, onClose, topic }) => {
           appointment: state.appointment?._id || "",
           id: content._id,
         })
-      )) as ActionResponse<ContentItem>;
+      )) as ActionResponse<ContentItem<Record>>;
       if (payload.data) {
         onClose();
       }

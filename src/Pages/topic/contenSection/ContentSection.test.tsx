@@ -4,7 +4,7 @@ import ContentSection from "./ContentSection";
 
 describe("ContentSection", () => {
   const defaultProps = {
-    items: Array<ContentItem>(),
+    items: Array<ContentItem<string>>(),
   };
   const mountComponent = (props = defaultProps) =>
     mount(<ContentSection {...props} />);

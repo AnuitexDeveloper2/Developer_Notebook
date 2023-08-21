@@ -16,7 +16,7 @@ const TopicPage: React.FC = () => {
 
   const [state, setState] = useState<TopicPageState>({
     appointments: Array<Record>(),
-    content: Array<ContentItem>(),
+    content: Array<ContentItem<string>>(),
     activeAppointment: "",
   });
 
