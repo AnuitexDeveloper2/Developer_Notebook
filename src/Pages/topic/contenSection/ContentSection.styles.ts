@@ -9,6 +9,11 @@ export const ContentSectionWrapper = styled("div")`
   justify-content: center;
   gap: 1.5rem;
   position: relative;
+  padding: 0 150px;
+  > :first-child {
+    grid-column: span var(--search-span, 1);
+    align-self: flex-start;
+  }
 `;
 
 export const ContentSectionContainer = styled("div")`
