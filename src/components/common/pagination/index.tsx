@@ -13,7 +13,7 @@ const PaginationTable: FC<Props> = ({
   total,
   title,
 }) => {
-  const [state, setState] = useState({
+  const [state, _setState] = useState({
       page: 1,
       perPage: 10
   });
@@ -22,7 +22,7 @@ const PaginationTable: FC<Props> = ({
   };
 
   const handleLastPage = () => {
-    const page = Math.ceil(total / state.perPage);
+    // const page = Math.ceil(total / state.perPage);
     // getCoupons(page, state.perPage, state.field, state.order, state.searchField, state.searchValue);
   };
 
@@ -34,9 +34,9 @@ const PaginationTable: FC<Props> = ({
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    _event: React.ChangeEvent<HTMLInputElement>,
   ): void => {
-    const perPage = parseInt(event.target.value, 10);
+    // const perPage = parseInt(event.target.value, 10);
     // getCoupons(1, perPage, state.field, state.order, state.searchField, state.searchValue);
   };
   return (

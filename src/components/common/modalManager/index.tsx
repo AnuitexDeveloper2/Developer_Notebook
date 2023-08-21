@@ -1,5 +1,4 @@
-import { connect, useSelector } from "react-redux";
-import React, { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import LogIn from "../../../Pages/signIn/LogIn";
 import { HeaderState } from "../../../redux/reducers/headerReducer";
 import Register from "../../../Pages/signUp/signUp";

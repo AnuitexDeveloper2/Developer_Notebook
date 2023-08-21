@@ -27,7 +27,8 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
-    "removeComments": true
+    "removeComments": true,
+    "noUnusedLocals": true,
   },
   "include": ["src"]
 }

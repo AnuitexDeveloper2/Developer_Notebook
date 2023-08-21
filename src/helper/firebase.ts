@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app"
 import { getStorage } from "firebase/storage"
-import { ref, list, listAll, getDownloadURL } from "firebase/storage"
+import { ref, listAll, getDownloadURL } from "firebase/storage"
 import { Topic } from "../types/content";
 
 export const addImagesToTopicItem = async (topicItems: Array<Topic>) => {

@@ -1,12 +1,10 @@
 import React, { FC, useState } from "react";
-import { useDispatch } from "react-redux";
 import Modal from "react-modal";
-import { Box, Button, TextField } from "@mui/material";
-import { Form, Formik, Field } from "formik";
+import { Box, TextField } from "@mui/material";
+import { Form, Formik } from "formik";
 
 import close from "../../assets/zondicons/close.svg";
 import MyTextInput from "../../components/common/myInputs/myTextInput";
-import { useModalState } from "../../components/hooks/modal";
 import { registerObject } from "../../helper/yupValidationSchemas";
 import { registerAction } from "../../redux/actions/auth/authActions";
 import { RegisterForm } from "../../types/auth";

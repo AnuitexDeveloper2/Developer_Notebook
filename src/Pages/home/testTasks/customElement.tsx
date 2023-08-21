@@ -1,4 +1,4 @@
-import { ElementType, ReactNode, ComponentPropsWithoutRef } from "react";
+import { ElementType, ComponentPropsWithoutRef } from "react";
 
 type Props<T extends ElementType> = {
   tag?: T;

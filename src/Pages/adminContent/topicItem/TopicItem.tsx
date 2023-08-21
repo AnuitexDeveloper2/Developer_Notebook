@@ -1,6 +1,4 @@
-import React, { FC, useState } from "react";
-import EditIcon from "@mui/icons-material/Edit";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { FC } from "react";
 
 import { Topic } from "../../../types/content";
 import { Dialog, DialogContent } from "@mui/material";

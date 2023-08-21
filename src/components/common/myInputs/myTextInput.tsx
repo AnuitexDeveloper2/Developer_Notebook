@@ -1,6 +1,6 @@
 import  React, { FC }  from "react";
 import { useField } from "formik";
-import { Box, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 
  interface Props {
      label: any
@@ -12,7 +12,7 @@ import { Box, TextField } from "@mui/material";
 const MyTextInput: FC<Props> = (props ) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
     // which we can spread on <input> and alse replace ErrorMessage entirely.
-    const [field, meta] = useField(props);
+    const [_field, meta] = useField(props);
     return (
       <div>
         <TextField className="base-input" onChange={props.onChange} /*{...field} {...props} *//>

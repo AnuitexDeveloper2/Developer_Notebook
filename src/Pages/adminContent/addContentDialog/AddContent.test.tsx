@@ -1,6 +1,5 @@
-import React from "react";
 import { mount } from "enzyme";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import AddContent from "./AddContent";
 import { Topic } from "../../../types/content";

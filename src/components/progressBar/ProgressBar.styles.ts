@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { grayDark03, grayLight02, teal } from "../../styles/colors";
+import { teal } from "../../styles/colors";
 
 export const ProgressBarContainer = styled("div")``;
 

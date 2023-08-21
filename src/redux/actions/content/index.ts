@@ -1,10 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ActionCreator, Dispatch } from "redux"
-import { ThunkAction } from "redux-thunk"
 import { http } from "../../../helper/request"
 import { ActionResponse } from "../../../models/response/types"
-import { Record, Topic } from "../../../types/content"
-import * as types from "./types"
 import { EditContentRequest } from "./types"
 
 

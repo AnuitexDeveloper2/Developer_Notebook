@@ -13,7 +13,7 @@ interface Props {
 
 const ItemComponent: React.FC<Props> = ({ item }) => {
   const {searchedContent} = useAppSelector((state) => state.contentReducer);
-  const [isHovered, setIsHovered] = useState(false);
+  const [_isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
     setIsHovered(true);

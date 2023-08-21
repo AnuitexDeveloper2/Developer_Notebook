@@ -1,12 +1,11 @@
 import { Input, Image } from "antd";
-import React, { useState } from "react";
+import React from "react";
 import { searchContentAction } from "../../../redux/actions/content";
 import {
   setSearchedContent,
   setSearchString,
 } from "../../../redux/reducers/contentReducer";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { ContentItem } from "../../../types/content";
 import clear from "../../../assets/images/close.svg";
 
 const Search: React.FC = () => {

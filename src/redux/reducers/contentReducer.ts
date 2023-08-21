@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Topic, Record, ContentItem } from "../../types/content";
-import { getTopicsAction } from "../actions/topic";
 
 export interface ContentState {
   topics: Array<Topic>;

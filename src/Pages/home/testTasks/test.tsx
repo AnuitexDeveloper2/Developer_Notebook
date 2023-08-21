@@ -7,10 +7,6 @@ function pick<T extends Record<string, string | number>, K extends keyof T>(
   return Object.assign({},...result)
 }
 
-interface Pet {
-    cat?: number;
-}
-
 
 type Person  = {
   name?: string;

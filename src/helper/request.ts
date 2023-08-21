@@ -2,7 +2,7 @@ import axios from "axios";
 import { alertService } from "../services";
 
 
-const agent = axios.create({
+axios.create({
     baseURL: process.env.REACT_APP_URI,
     // `https://b653dd9653de.ngrok.io/api`,
 

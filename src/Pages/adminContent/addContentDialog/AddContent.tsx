@@ -6,7 +6,7 @@ import {
 } from "../../../redux/actions/content";
 import { ContentItem, Record, Topic } from "../../../types/content";
 import { alertService } from "../../../services";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { useAppDispatch } from "../../../redux/store";
 import { ActionResponse } from "../../../models/response/types";
 import {
   createAppointmentAction,

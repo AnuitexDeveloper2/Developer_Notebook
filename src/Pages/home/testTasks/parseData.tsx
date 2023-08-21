@@ -1,7 +1,6 @@
 import React from "react";
 
 const ParseData: React.FC = () => {
-  const mainFunc = () => {
     const dataSchema = {
       id: "number",
       name: "string",
@@ -52,7 +51,8 @@ const ParseData: React.FC = () => {
     }
 
     const result = parseData(dataStr, dataSchema);
-
+    console.log(result);
+    
     /*
     Result example:
     [
@@ -65,7 +65,6 @@ const ParseData: React.FC = () => {
         ...
     ]
     */
-  };
   return <div></div>;
 };
 

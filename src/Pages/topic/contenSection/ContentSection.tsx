@@ -5,7 +5,6 @@ import ItemComponent from "./contentItem/ContentItem";
 import {
   ContentSectionContainer,
   ContentSectionWrapper,
-  SearchSection,
 } from "./ContentSection.styles";
 
 interface Props {
